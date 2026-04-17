@@ -1,7 +1,8 @@
 import React from "react";
 
 const StatCard = ({ title, value, sub, subColor, icon, trend }) => (
-  <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-50 flex justify-between items-start">
+  <div className="font-inter bg-white p-4 rounded-[24px] shadow-sm 
+  border border-gray-50 flex justify-between items-start">
     <div>
       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
         {title}

@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Verifikasi from "./pages/Verifikasi";
 import Template from "./pages/Template";
 import DataMahasiswa from "./pages/DataMahasiswa"; // ✅ TAMBAHAN
+import IjazahTerbit from "./pages/IjazahTerbit";
 
 function App() {
   return (
@@ -60,6 +61,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+            <Route 
+            path="/" element={<Dashboard />} />
+            <Route 
+            path="/ijazah-terbit" element={<IjazahTerbit />} />
 
           {/* DEFAULT */}
           <Route path="/" element={<Navigate to="/login" replace />} />

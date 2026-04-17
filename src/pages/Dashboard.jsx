@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../components/ui/DashboardLayout";
 import StatCard from "../components/ui/StatCard";
-import IssuanceChart from "../components/ui/IssuanceChart";
-import VerificationStatusChart from "../components/ui/VerificationStatusChart";
+import ChartIjazah from "../components/ui/ChartIjazah";
 import { getStatistics, getMonthlyIssuance, getVerificationStatus, getIjazahList } from "../../services/api";
 
-const Dashboard = () => {
+const Dashboard = () => { 
   const [stats, setStats] = useState(null);
   const [monthlyData, setMonthlyData] = useState(null);
   const [verificationData, setVerificationData] = useState(null);
@@ -15,12 +15,17 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Original sample data
   const originalData = [
     { n: "Adi Saputra", npm: "2011080518", p: "Teknik Informatika", t: "2024", s: "Valid", c: "bg-[#F39191]", ini: "AS" },
-    { n: "Rani Maharani", npm: "2211080518", p: "Akuntansi", t: "2026", s: "Proses", c: "bg-[#8BC9F3]", ini: "RM" },
+    { n: "Rani Maharani", npm: "2211080518", p: "Akuntansi", t: "2026", s: "valid", c: "bg-[#8BC9F3]", ini: "RM" },
     { n: "Budi Pratama", npm: "1811080518", p: "Manajemen Bisnis", t: "2022", s: "Valid", c: "bg-[#E691F3]", ini: "BP" },
     { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
+    { n: "Dewi Lestari", npm: "2111080518", p: "Psikologi", t: "2025", s: "Proses", c: "bg-[#F3E191]", ini: "DL" },
+    { n: "Rizky Ramadhan", npm: "1911080518", p: "Teknik Sipil", t: "2023", s: "Valid", c: "bg-[#F39191]", ini: "RR" },
+    { n: "Siti Nurhaliza", npm: "2011080518", p: "Desain Komunikasi Visual", t: "2024", s: "Reject", c: "bg-[#8BC9F3]", ini: "SN" },
+    { n: "Ahmad Fauzi", npm: "2211080518", p: "Teknik Mesin", t: "2026", s: "Proses", c: "bg-[#E691F3]", ini: "AF" },
+    { n: "Lina Marlina", npm: "1811080518", p: "Ilmu Komunikasi", t: "2022", s: "Valid", c: "bg-[#91F3A0]", ini: "LM" },
+    { n: "Dian Sastro", npm: "2011080518", p: "Sastra Inggris", t: "2024", s: "Valid", c: "bg-[#F39191]", ini: "DS" }, 
   ];
 
   useEffect(() => {
@@ -84,15 +89,10 @@ useEffect(() => {
     }
   };
 
-  // Handle search - optimized to prevent UI blinking
   const handleSearch = useCallback((e) => {
     const query = e.target.value;
     setSearchQuery(query);
   }, []);
-
-// Fixed broken search useEffect - removed incomplete code
-
-  // Get current date for display
   const currentDate = new Date().toLocaleDateString("id-ID", {
     day: "numeric",
     month: "long",
@@ -103,18 +103,19 @@ useEffect(() => {
 
   return (
     <DashboardLayout>
-      <header className="mb-10">
-        <h1 className="text-3xl font-black text-[#1a1a1a] tracking-tight">
+      <header className="mb-5 font-inter bg-gray-200">
+        <h1 className="text-3xl font-inter font-bold text-[#1a1a1a] tracking-tight">
           Ringkasan Statistik
         </h1>
-        <p className="text-gray-400 text-xs italic mt-1 font-medium">
+        <p className="text-gray-400 font-inter text-xs italic mt-1 font-medium">
           Update terakhir: {currentDate} WIB
         </p>
       </header>
 
      {/* STAT CARDS SECTION */}
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 ">
   {/* Kartu 1: Terbit */}
+  <Link to="/ijazah-terbit" className="block">
   <StatCard
     title="Jumlah Ijazah Terbit"
     value={stats?.totalIjazahTerbit || 12543}
@@ -122,6 +123,7 @@ useEffect(() => {
     subColor="text-green-500"
     icon="🎓"
   />
+</Link>
 
   {/* Kartu 2: Proses */}
   <StatCard
@@ -150,16 +152,7 @@ useEffect(() => {
     icon="📋"
   />
 </div>
-
-      {/* CHARTS SECTION */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-        <div className="lg:col-span-2">
-          <IssuanceChart data={monthlyData} loading={loading} />
-        </div>
-        <div>
-          <VerificationStatusChart data={verificationData} loading={loading} />
-        </div>
-      </div>
+<ChartIjazah />
 
       {/* TABLE SECTION SESUAI FIGMA */}
       <div className="bg-white rounded-[15px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden mt-10">

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "../components/ui/DashboardLayout";
 import StatCard from "../components/ui/StatCard";
-import VerificationStatusChart from "../components/ui/VerificationStatusChart";
 import { getStatistics, getVerificationStatus, getIjazahList, verifyIjazah, searchIjazah } from "../../services/api";
 
 const Verifikasi = () => {
@@ -96,7 +95,7 @@ const Verifikasi = () => {
         <div className={`fixed top-24 right-6 z-50 px-6 py-4 rounded-lg shadow-lg transition-all transform animate-slide-in ${
           notification.type === "success" ? "bg-green-500" : "bg-red-500"
         } text-white`}>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
             <span className="text-xl">
               {notification.type === "success" ? "✓" : "✕"}
             </span>
@@ -115,7 +114,7 @@ const Verifikasi = () => {
       </header>
 
       {/* Search Section */}
-      <div className="bg-white rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-gray-100 p-8 mb-8">
+      <div className="bg-white rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-gray-100 p-3 mb-4">
         <h2 className="text-lg font-bold text-[#2D2D2D] mb-4">
           🔍 Cek Status Verifikasi Ijazah
         </h2>
@@ -219,11 +218,7 @@ const Verifikasi = () => {
         />
       </div>
 
-      {/* Charts and Table */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-1">
-          <VerificationStatusChart data={verificationData} loading={loading} />
-        </div>
+      
         
         {/* Recent Verification Table */}
         <div className="lg:col-span-2 bg-white rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-gray-100 p-6">
@@ -268,7 +263,7 @@ const Verifikasi = () => {
             </table>
           </div>
         </div>
-      </div>
+      
     </DashboardLayout>
   );
 };

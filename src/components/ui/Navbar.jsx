@@ -30,14 +30,14 @@ const Navbar = () => {
         <img src={logo} alt="Logo UIKA" className="w-12 h-12 object-contain" />
         <div className="leading-tight">
           <div className="text-black font-semibold text-sm">Universitas</div>
-          <div className="text-[#27AE60] font-bold text-sm">
+          <div className="text-[#0D6360] font-bold text-sm">
             Ibn Khaldun Bogor
           </div>
         </div>
       </div>
 
       {/* MENU */}
-      <div className="flex gap-6">
+      <div className="flex gap-7">
         <NavLink to="/dashboard" className={(p) => linkClass(p) + " " + activeLine(p)}>
           Dashboard
         </NavLink>
@@ -48,6 +48,10 @@ const Navbar = () => {
 
         <NavLink to="/data-mahasiswa" className={(p) => linkClass(p) + " " + activeLine(p)}>
           Data Mahasiswa
+        </NavLink>
+
+        <NavLink to="/daftar-unit" className={(p) => linkClass(p) + " " + activeLine(p)}>
+          Daftar Unit
         </NavLink>
 
         {/* 🔥 FIX: TIDAK ADA HOVER MERAH */}
