@@ -50,12 +50,7 @@ const Navbar = () => {
           Data Mahasiswa
         </NavLink>
 
-        {/* 🔥 TAMBAHAN BARU */}
-        <NavLink to="/daftar-unit" className={(p) => linkClass(p) + " " + activeLine(p)}>
-          Daftar Unit
-        </NavLink>
-
-        {/* Manajemen User tetap */}
+        {/* 🔥 FIX: TIDAK ADA HOVER MERAH */}
         <button
           onClick={handleLogout}
           className="px-4 py-2 text-sm font-semibold text-gray-500"
