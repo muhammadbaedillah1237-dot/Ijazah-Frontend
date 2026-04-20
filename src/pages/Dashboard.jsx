@@ -21,11 +21,6 @@ const Dashboard = () => {
     { n: "Rani Maharani", npm: "2211080518", p: "Akuntansi", t: "2026", s: "Proses", c: "bg-[#8BC9F3]", ini: "RM" },
     { n: "Budi Pratama", npm: "1811080518", p: "Manajemen Bisnis", t: "2022", s: "Valid", c: "bg-[#E691F3]", ini: "BP" },
     { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
   ];
 
   useEffect(() => {
