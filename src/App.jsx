@@ -8,11 +8,15 @@ import {
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 
+// PAGES
 import Login from "./pages/login";
 import Dashboard from "./pages/Dashboard";
 import Verifikasi from "./pages/Verifikasi";
 import Template from "./pages/Template";
-import DataMahasiswa from "./pages/DataMahasiswa"; // ✅ TAMBAHAN
+import DataMahasiswa from "./pages/DataMahasiswa";
+import DetailBatch from "./pages/DetailBatch";
+import DetailMahasiswa from "./pages/DetailMahasiswa";
+import DaftarUnit from "./pages/DaftarUnit"; // 🔥 TAMBAH INI
 
 function App() {
   return (
@@ -20,10 +24,11 @@ function App() {
       <Router>
         <Routes>
 
-          {/* PUBLIC */}
+          {/* ================= PUBLIC ================= */}
           <Route path="/login" element={<Login />} />
 
-          {/* PROTECTED */}
+          {/* ================= PROTECTED ================= */}
+
           <Route
             path="/dashboard"
             element={
@@ -51,7 +56,6 @@ function App() {
             }
           />
 
-          {/* ✅ DATA MAHASISWA */}
           <Route
             path="/data-mahasiswa"
             element={
@@ -61,10 +65,40 @@ function App() {
             }
           />
 
-          {/* DEFAULT */}
+          {/* ================= DETAIL ================= */}
+
+          <Route
+            path="/detail-batch/:id"
+            element={
+              <ProtectedRoute>
+                <DetailBatch />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/detail-mahasiswa/:id"
+            element={
+              <ProtectedRoute>
+                <DetailMahasiswa />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ================= DAFTAR UNIT (FIX LOGOUT ISSUE) ================= */}
+          <Route
+            path="/daftar-unit"
+            element={
+              <ProtectedRoute>
+                <DaftarUnit />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ================= DEFAULT ================= */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* FALLBACK */}
+          {/* ================= FALLBACK ================= */}
           <Route path="*" element={<Navigate to="/login" replace />} />
 
         </Routes>

@@ -1,156 +1,222 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import { FiSearch, FiChevronDown } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../components/ui/DashboardLayout";
 
 const DataMahasiswa = () => {
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [fakultas, setFakultas] = useState("");
   const [tahun, setTahun] = useState("");
-  const [batch, setBatch] = useState("");
 
-  // DATA STATIS
-  const data = [
-    { nama: "Adi Saputra", nim: "231106040902", fakultas: "FTS", prodi: "Teknik Informatika", tahun: "2026", batch: "Batch 1", status: "Proses" },
-    { nama: "Rani Maharani", nim: "231106040903", fakultas: "FEB", prodi: "Akuntansi", tahun: "2026", batch: "Batch 2", status: "Proses" },
-    { nama: "Budi Pratama", nim: "231106040910", fakultas: "FEB", prodi: "Bisnis Digital", tahun: "2025", batch: "Batch 3", status: "Proses" },
-    { nama: "Kayla Key", nim: "231106040912", fakultas: "FH", prodi: "Ilmu Hukum", tahun: "2025", batch: "Batch 1", status: "Proses" },
-    { nama: "Rizky Gusti A", nim: "231106040839", fakultas: "FTS", prodi: "Teknik Informatika", tahun: "2024", batch: "Batch 4", status: "Proses" },
+  const fakultasList = [
+    {
+      nama: "Fakultas Teknik dan Sains",
+      kode: "FTS",
+      prodi: ["Teknik Informatika", "Teknik Mesin", "Teknik Sipil"],
+    },
+    {
+      nama: "Fakultas Ekonomi dan Bisnis",
+      kode: "FEB",
+      prodi: ["Manajemen", "Akuntansi"],
+    },
+    {
+      nama: "Fakultas Hukum",
+      kode: "FH",
+      prodi: ["Ilmu Hukum"],
+    },
+    {
+      nama: "Fakultas Ilmu Kesehatan",
+      kode: "FIKES",
+      prodi: ["Keperawatan", "Kesehatan Masyarakat"],
+    },
   ];
 
-  // 🔥 GENERATE TAHUN (tahun lalu - sekarang)
-  const currentYear = new Date().getFullYear();
-  const years = [currentYear - 1, currentYear];
+  const years = ["2021", "2022", "2023", "2024", "2025", "2026"];
 
-  // 🔥 GENERATE BATCH 1 - 10
-  const batches = Array.from({ length: 10 }, (_, i) => `Batch ${i + 1}`);
+  const namaList = [
+    "Adi Saputra",
+    "Rani Maharani",
+    "Budi Pratama",
+    "Siti Aisyah",
+    "Dimas Nugraha",
+    "Fajar Ramadhan",
+    "Putri Lestari",
+    "Andi Wijaya",
+    "Rizky Maulana",
+    "Nabila Putri",
+    "Yoga Pratama",
+    "Citra Dewi",
+  ];
 
-  // 🔥 FILTER DATA
-  const filtered = data.filter((item) => {
-    return (
-      (item.nama.toLowerCase().includes(search.toLowerCase()) ||
-        item.nim.includes(search)) &&
-      (fakultas ? item.fakultas === fakultas : true) &&
-      (tahun ? item.tahun === tahun : true) &&
-      (batch ? item.batch === batch : true)
-    );
-  });
+  // 🔥 FUNCTION RANDOM
+  const getRandom = (arr) =>
+    arr[Math.floor(Math.random() * arr.length)];
+
+  const data = useMemo(() => {
+    let result = [];
+
+    fakultasList.forEach((fak) => {
+      for (let i = 1; i <= 10; i++) {
+        result.push({
+          batch: `Batch ${i} - ${fak.kode}`,
+          fakultas: fak.nama,
+          tahun: getRandom(years),
+          periode:
+            Math.random() > 0.5
+              ? "Semester Genap"
+              : "Semester Ganjil",
+          total: 10,
+        });
+      }
+    });
+
+    // 🔥 INI BAGIAN PENTING: kalau BELUM pilih fakultas → RANDOM CAMPUR
+    if (!fakultas) {
+      return result.sort(() => Math.random() - 0.5);
+    }
+
+    return result;
+  }, [fakultas]);
+
+  const filtered = data
+    .filter((item) => {
+      return (
+        item.batch.toLowerCase().includes(search.toLowerCase()) &&
+        (fakultas ? item.fakultas === fakultas : true) &&
+        (tahun ? item.tahun === tahun : true)
+      );
+    })
+    .slice(0, 10); // 🔥 tetap 10 data
 
   return (
     <DashboardLayout>
+
       {/* HEADER */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[#2D2D2D]">
+      <div className="mb-6">
+        <h1 className="text-3xl font-black text-[#1a1a1a]">
           Manajemen Data Mahasiswa
         </h1>
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-400 text-sm mt-1">
           Melihat data yang sedang di proses validasi
         </p>
       </div>
 
-      {/* FILTER BAR */}
-      <div className="bg-white p-4 rounded-xl shadow mb-6 flex flex-wrap gap-4 items-center">
-        
+      {/* FILTER */}
+      <div className="bg-[#F1F1F1] p-4 rounded-xl flex flex-wrap items-center gap-3 mb-5">
+
         {/* SEARCH */}
-        <input
-          type="text"
-          placeholder="Cari: Nama, NIM, Prodi"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="px-4 py-2 rounded-lg bg-[#EDEDED] outline-none w-64 text-sm"
-        />
+        <div className="flex items-center bg-[#E5E5E5] rounded-lg px-3 h-10 w-72">
+          <FiSearch className="text-gray-500 text-sm mr-2" />
+          <input
+            type="text"
+            placeholder="Cari Batch"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="bg-transparent outline-none text-sm w-full"
+          />
+        </div>
 
-        {/* FAKULTAS */}
-        <select
-          value={fakultas}
-          onChange={(e) => setFakultas(e.target.value)}
-          className="px-4 py-2 rounded-lg bg-[#EDEDED] text-sm"
-        >
-          <option value="">Semua Fakultas</option>
-          <option value="FAI">FAI</option>
-          <option value="FKIP">FKIP</option>
-          <option value="FEB">FEB</option>
-          <option value="FH">FH</option>
-          <option value="FTS">FTS</option>
-          <option value="FIKES">FIKES</option>
-        </select>
+        {/* FAKULTAS (dropdown tetap ada) */}
+        <div className="relative">
+          <select
+            value={fakultas}
+            onChange={(e) => setFakultas(e.target.value)}
+            className="appearance-none bg-[#E5E5E5] text-sm px-4 h-10 rounded-lg pr-10 min-w-[220px]"
+          >
+            <option value="">Semua Fakultas</option>
+            {fakultasList.map((f, i) => (
+              <option key={i} value={f.nama}>
+                {f.nama}
+              </option>
+            ))}
+          </select>
+          <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm pointer-events-none" />
+        </div>
 
-        {/* TAHUN LULUS */}
-        <select
-          value={tahun}
-          onChange={(e) => setTahun(e.target.value)}
-          className="px-4 py-2 rounded-lg bg-[#EDEDED] text-sm"
-        >
-          <option value="">Tahun Lulus</option>
-          {years.map((y) => (
-            <option key={y} value={y}>
-              {y}
-            </option>
-          ))}
-        </select>
+        {/* TAHUN */}
+        <div className="relative">
+          <select
+            value={tahun}
+            onChange={(e) => setTahun(e.target.value)}
+            className="appearance-none bg-[#E5E5E5] text-sm px-4 h-10 rounded-lg pr-10 min-w-[160px]"
+          >
+            <option value="">Tahun Lulus</option>
+            {years.map((y, i) => (
+              <option key={i} value={y}>
+                {y}
+              </option>
+            ))}
+          </select>
+          <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm pointer-events-none" />
+        </div>
 
-        {/* BATCH */}
-        <select
-          value={batch}
-          onChange={(e) => setBatch(e.target.value)}
-          className="px-4 py-2 rounded-lg bg-[#EDEDED] text-sm"
-        >
-          <option value="">Semua Batch</option>
-          {batches.map((b, i) => (
-            <option key={i} value={b}>
-              {b}
-            </option>
-          ))}
-        </select>
       </div>
 
       {/* TABLE */}
-      <div className="bg-white rounded-xl shadow overflow-hidden">
-        
-        <table className="w-full text-left">
-          <thead>
-            <tr className="bg-[#EFEFEF] text-[#828282] text-sm">
-              <th className="p-4">No.</th>
-              <th className="p-4">Nama</th>
-              <th className="p-4">NIM</th>
-              <th className="p-4">Fakultas</th>
-              <th className="p-4">Program Studi</th>
-              <th className="p-4">Tahun Lulus</th>
-              <th className="p-4 text-center">Status</th>
-              <th className="p-4 text-center">Detail</th>
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+
+        <table className="w-full text-sm">
+
+          <thead className="bg-[#F7F7F7] text-gray-500 border-b border-gray-200">
+            <tr>
+              <th className="px-4 py-3 text-center">No</th>
+              <th className="px-4 py-3 text-left">List Batch</th>
+              <th className="px-4 py-3 text-center">Fakultas</th>
+              <th className="px-4 py-3 text-center">Tahun</th>
+              <th className="px-4 py-3 text-center">Periode</th>
+              <th className="px-4 py-3 text-center">Total</th>
+              <th className="px-4 py-3 text-center">Detail</th>
             </tr>
           </thead>
 
           <tbody>
             {filtered.map((item, i) => (
-              <tr key={i} className="border-b hover:bg-gray-50">
-                <td className="p-4">{i + 1}</td>
-                <td className="p-4 font-semibold">{item.nama}</td>
-                <td className="p-4">{item.nim}</td>
-                <td className="p-4">{item.fakultas}</td>
-                <td className="p-4">{item.prodi}</td>
-                <td className="p-4">{item.tahun}</td>
-                
-                <td className="p-4 text-center">
-                  <span className="bg-[#2D9CDB] text-white px-3 py-1 rounded-full text-xs">
-                    {item.status}
-                  </span>
+              <tr
+                key={i}
+                className="border-t border-gray-200 hover:bg-gray-50"
+              >
+                <td className="px-4 py-3 text-center">{i + 1}</td>
+
+                <td className="px-4 py-3 font-medium text-gray-800">
+                  {item.batch}
                 </td>
 
-                <td className="p-4 text-center">
-                  🔍
+                <td className="px-4 py-3 text-center">
+                  {item.fakultas}
                 </td>
+
+                <td className="px-4 py-3 text-center">
+                  {item.tahun}
+                </td>
+
+                <td className="px-4 py-3 text-center">
+                  {item.periode}
+                </td>
+
+                <td className="px-4 py-3 text-center font-medium">
+                  {item.total}
+                </td>
+
+                {/* DETAIL */}
+                <td className="px-4 py-3 text-center">
+                  <div
+                    onClick={() => navigate(`/detail-batch/${i}`)}
+                    className="w-7 h-7 border border-gray-300 rounded-md flex items-center justify-center mx-auto cursor-pointer hover:bg-gray-100 transition"
+                  >
+                    <div className="w-3 h-3 border-t-2 border-b-2 border-gray-400"></div>
+                  </div>
+                </td>
+
               </tr>
             ))}
           </tbody>
+
         </table>
 
-        {/* PAGINATION */}
-        <div className="flex justify-end items-center gap-2 p-4">
-          <button className="px-3 py-1 border rounded">{"<"}</button>
-          <button className="px-3 py-1 bg-green-600 text-white rounded">1</button>
-          <button className="px-3 py-1 border rounded">2</button>
-          <button className="px-3 py-1 border rounded">{">"}</button>
-        </div>
       </div>
+
     </DashboardLayout>
   );
 };
