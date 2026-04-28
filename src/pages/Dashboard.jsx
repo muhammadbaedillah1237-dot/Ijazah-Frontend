@@ -8,7 +8,6 @@ import VerificationStatusChart from "../components/ui/VerificationStatusChart";
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
-<<<<<<< HEAD
   // 10 Dummy Data Presisi sesuai Figma
   const dummyData = [
     { n: "Adi Saputra", b: "Batch 1 - FEB", nim: "231106040902", f: "Fakultas Ekonomi dan Bisnis", p: "Manajemen", t: "2026", s: "Terbit" },
@@ -21,19 +20,6 @@ const Dashboard = () => {
     { n: "Siti Aisyah", b: "Batch 3 - FEB", nim: "231106040906", f: "Fakultas Ekonomi dan Bisnis", p: "Bisnis Digital", t: "2026", s: "Reject" },
     { n: "Eagle Al-Haikal", b: "Batch 3 - FEB", nim: "231106040907", f: "Fakultas Ekonomi dan Bisnis", p: "Manajemen", t: "2026", s: "Reject" },
     { n: "Zahra Nabil", b: "Batch 3 - FEB", nim: "231106040918", f: "Fakultas Ekonomi dan Bisnis", p: "Manajemen", t: "2026", s: "Reject" },
-=======
-  // Original sample data
-  const originalData = [
-    { n: "Adi Saputra", npm: "2011080518", p: "Teknik Informatika", t: "2024", s: "Valid", c: "bg-[#F39191]", ini: "AS" },
-    { n: "Rani Maharani", npm: "2211080518", p: "Akuntansi", t: "2026", s: "Proses", c: "bg-[#8BC9F3]", ini: "RM" },
-    { n: "Budi Pratama", npm: "1811080518", p: "Manajemen Bisnis", t: "2022", s: "Valid", c: "bg-[#E691F3]", ini: "BP" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
-    { n: "Kayla Kay", npm: "2011080518", p: "Ilmu Hukum", t: "2024", s: "Reject", c: "bg-[#91F3A0]", ini: "KK" },
->>>>>>> 38a216d0616bf15dbcc92ceb254876f1de05ca70
   ];
 
   // Fungsi Badge Warna
