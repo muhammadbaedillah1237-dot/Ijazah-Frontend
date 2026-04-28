@@ -13,11 +13,23 @@ const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 🔥 NEW
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const from = location.state?.from?.pathname || "/dashboard";
+
+  // --- MOCK DATABASE (DUMMY USERS) ---
+const mockUsers = [
+    { username: "admin@gmail.com", password: "123", role: "admin", name: "Admin", subName: "Sistem" },
+    { username: "operator@gmail.com", password: "123", role: "operator", name: "Operator", subName: "Data" },
+    { username: "tatausaha@gmail.com", password: "123", role: "tata_usaha", name: "Tata Usaha", subName: "Fakultas Teknik" },
+    { username: "wakildekan@gmail.com", password: "123", role: "wakil_dekan", name: "Wakil Dekan", subName: "Fakultas Teknik" },
+    { username: "dekan@gmail.com", password: "123", role: "dekan", name: "Dekan", subName: "Fakultas Teknik" },
+    { username: "rektorat@gmail.com", password: "123", role: "rektorat", name: "Tata Usaha", subName: "Rektorat" },
+    { username: "wakilrektor@gmail.com", password: "123", role: "wakil_rektor", name: "Wakil Rektor", subName: "Rektorat" },
+    { username: "rektor@gmail.com", password: "123", role: "rektor", name: "Rektor", subName: "Rektorat" }
+  ];
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,9 +44,21 @@ const Login = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      if (username === "admin" && password === "admin123") {
-        const userData = { username, role: "admin", name: "Administrator" };
-        await login(userData, "mock-token-123");
+      // Cari user berdasarkan mock database
+      const user = mockUsers.find(
+        (u) => u.username === username && u.password === password
+      );
+
+      if (user) {
+        localStorage.setItem("token", "dummy-token-12345");
+        localStorage.setItem("role", user.role);
+        localStorage.setItem("name", user.name);
+        localStorage.setItem("subName", user.subName);
+
+        if (login) {
+           await login(user, "dummy-token-12345");
+        }
+
         navigate(from, { replace: true });
       } else {
         setError("Username atau password salah");
@@ -61,7 +85,7 @@ const Login = () => {
 
       {/* Card */}
       <div className="
-        relative w-full max-w-[360px] 
+        relative w-full max-w-90 
         bg-white
         rounded-[28px]
         shadow-[0_15px_40px_rgba(0,0,0,0.25)]
@@ -81,7 +105,7 @@ const Login = () => {
           <h2 className="text-[17px] sm:text-xl font-bold text-gray-800 text-center">
             Universitas Ibn Khaldun Bogor
           </h2>
-          <p className="text-[10px] sm:text-xs text-gray-400 font-bold mt-1 uppercase tracking-[0.1em] text-center">
+          <p className="text-[10px] sm:text-xs text-gray-400 font-bold mt-1 uppercase tracking- text-center">
             Verifikasi & Akses Ijazah Digital
           </p>
         </div>
@@ -112,7 +136,7 @@ const Login = () => {
 
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"} // 🔥 toggle
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
