@@ -16,7 +16,8 @@ import Template from "./pages/Template";
 import DataMahasiswa from "./pages/DataMahasiswa";
 import DetailBatch from "./pages/DetailBatch";
 import DetailMahasiswa from "./pages/DetailMahasiswa";
-import DaftarUnit from "./pages/DaftarUnit"; // 🔥 TAMBAH INI
+import DaftarUnit from "./pages/DaftarUnit";
+import DaftarPengguna from "./pages/DaftarPengguna"; // 🔥 WAJIB
 
 function App() {
   return (
@@ -24,81 +25,29 @@ function App() {
       <Router>
         <Routes>
 
-          {/* ================= PUBLIC ================= */}
+          {/* PUBLIC */}
           <Route path="/login" element={<Login />} />
 
-          {/* ================= PROTECTED ================= */}
+          {/* PROTECTED */}
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/verifikasi" element={<ProtectedRoute><Verifikasi /></ProtectedRoute>} />
+          <Route path="/template" element={<ProtectedRoute><Template /></ProtectedRoute>} />
+          <Route path="/data-mahasiswa" element={<ProtectedRoute><DataMahasiswa /></ProtectedRoute>} />
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+          {/* DETAIL */}
+          <Route path="/detail-batch/:id" element={<ProtectedRoute><DetailBatch /></ProtectedRoute>} />
+          <Route path="/detail-mahasiswa/:id" element={<ProtectedRoute><DetailMahasiswa /></ProtectedRoute>} />
 
-          <Route
-            path="/verifikasi"
-            element={
-              <ProtectedRoute>
-                <Verifikasi />
-              </ProtectedRoute>
-            }
-          />
+          {/* UNIT */}
+          <Route path="/daftar-unit" element={<ProtectedRoute><DaftarUnit /></ProtectedRoute>} />
 
-          <Route
-            path="/template"
-            element={
-              <ProtectedRoute>
-                <Template />
-              </ProtectedRoute>
-            }
-          />
+          {/* 🔥 DAFTAR PENGGUNA (INI YANG KAMU BUTUH) */}
+          <Route path="/daftar-pengguna" element={<ProtectedRoute><DaftarPengguna /></ProtectedRoute>} />
 
-          <Route
-            path="/data-mahasiswa"
-            element={
-              <ProtectedRoute>
-                <DataMahasiswa />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* ================= DETAIL ================= */}
-
-          <Route
-            path="/detail-batch/:id"
-            element={
-              <ProtectedRoute>
-                <DetailBatch />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/detail-mahasiswa/:id"
-            element={
-              <ProtectedRoute>
-                <DetailMahasiswa />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* ================= DAFTAR UNIT (FIX LOGOUT ISSUE) ================= */}
-          <Route
-            path="/daftar-unit"
-            element={
-              <ProtectedRoute>
-                <DaftarUnit />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* ================= DEFAULT ================= */}
+          {/* DEFAULT */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* ================= FALLBACK ================= */}
+          {/* FALLBACK */}
           <Route path="*" element={<Navigate to="/login" replace />} />
 
         </Routes>

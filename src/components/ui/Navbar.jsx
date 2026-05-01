@@ -82,7 +82,7 @@ const Navbar = () => {
           )}
         </NavLink>
 
-        {/* 🔥 FIX: DIJADIKAN NAVLINK BIAR STYLE SAMA */}
+        {/* 🔥 FIX FINAL: DAFTAR PENGGUNA */}
         <NavLink to="/daftar-pengguna">
           {({ isActive }) => (
             <span className={linkClass(isActive) + " " + activeLine(isActive)}>

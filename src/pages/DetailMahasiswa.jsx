@@ -25,25 +25,59 @@ const DetailMahasiswa = () => {
     );
   }
 
-  // 🔥 MATKUL SESUAI FAKULTAS
   const getMatkul = () => {
     if (mahasiswa.fakultas.includes("Teknik")) {
       return [
         "Algoritma dan Pemrograman",
-        "Struktur Data",
-        "Basis Data",
-        "Sistem Operasi",
-        "Jaringan Komputer",
-        "Rekayasa Perangkat Lunak",
-        "Kecerdasan Buatan",
-        "Machine Learning",
-        "Cloud Computing",
-        "Keamanan Siber",
-        "Data Mining",
-        "Big Data",
-        "Internet of Things",
-        "Pemrograman Mobile",
-        "Grafika Komputer",
+          "Struktur Data",
+          "Basis Data",
+          "Sistem Operasi",
+          "Organisasi Komputer",
+          "Arsitektur Komputer",
+          "Jaringan Komputer",
+          "Keamanan Jaringan",
+          "Sistem Informasi Geografis",
+          "Rekayasa Perangkat Lunak",
+          "Rekayasa Perangkat Lunak Lanjut",
+          "Analisis dan Perancangan Sistem",
+          "Pemrograman Berorientasi Objek",
+          "Pemrograman Web",
+          "Pemrograman Mobile",
+          "Kecerdasan Buatan",
+          "Machine Learning",
+          "Data Mining",
+          "Big Data",
+          "Cloud Computing",
+          "Internet of Things",
+          "Interaksi Manusia dan Komputer",
+          "Grafika Komputer",
+          "Pengolahan Citra Digital",
+          "Pengolahan Sinyal Digital",
+          "Sistem Tertanam",
+          "Sistem Terdistribusi",
+          "Parallel Computing",
+          "Kriptografi",
+          "Keamanan Informasi",
+          "Manajemen Basis Data",
+          "Administrasi Jaringan",
+          "Etika Profesi",
+          "Metode Penelitian",
+          "Statistika",
+          "Matematika Diskrit",
+          "Aljabar Linear",
+          "Kalkulus",
+          "Kapita Selekta",
+          "Manajemen Proyek",
+          "Technopreneurship",
+              "Sistem Pendukung Keputusan",
+              "Sistem Pakar",
+              "Enterprise Resource Planning",
+              "E-Commerce",
+              "Audit Sistem Informasi",
+              "Tata Kelola TI",
+              "Data Warehouse",
+              "Business Intelligence"
+                
       ];
     }
 
@@ -52,35 +86,12 @@ const DetailMahasiswa = () => {
         "Pengantar Akuntansi",
         "Manajemen Keuangan",
         "Ekonomi Mikro",
-        "Ekonomi Makro",
-        "Manajemen SDM",
-        "Perpajakan",
-        "Audit",
-        "Sistem Informasi Akuntansi",
-        "Akuntansi Biaya",
-        "Investasi",
-      ];
-    }
-
-    if (mahasiswa.fakultas.includes("Kesehatan")) {
-      return [
-        "Anatomi",
-        "Fisiologi",
-        "Kesehatan Masyarakat",
-        "Gizi",
-        "Epidemiologi",
-        "Farmakologi",
-        "Keperawatan Dasar",
-        "Kesehatan Lingkungan",
-        "Promosi Kesehatan",
-        "Etika Profesi",
       ];
     }
 
     return ["Mata Kuliah Umum"];
   };
 
-  // 🔥 GENERATE NILAI (STABIL)
   const nilaiData = useMemo(() => {
     const getRandomNilai = () => {
       const list = ["A", "A-", "B+", "B"];
@@ -115,9 +126,7 @@ const DetailMahasiswa = () => {
 
         {/* HEADER */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-[16px] font-semibold text-gray-800">
-            Detail Data Mahasiswa
-          </h1>
+          <h1 className="text-2xl font-bold">Detail Mahasiswa</h1>
 
           <button
             onClick={() => navigate(-1)}
@@ -153,42 +162,54 @@ const DetailMahasiswa = () => {
           </span>
         </div>
 
-        {/* 🔥 INFO (TIDAK DIHAPUS) */}
+        {/* INFO */}
         <div className="grid grid-cols-2 gap-5 mb-5">
 
           {/* INFORMASI PRIBADI */}
-          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-            <div className="flex items-center gap-2 mb-4 text-gray-700">
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+            
+            {/* HEADER ABU */}
+            <div className="bg-gray-100 px-4 py-2 flex items-center gap-2 border-b border-gray-200">
               <FiUser size={14} />
-              <h3 className="text-sm font-semibold">Informasi Pribadi</h3>
+              <h3 className="text-sm font-semibold text-gray-700">
+                Informasi Pribadi
+              </h3>
             </div>
 
-            <div className="text-[12px] space-y-3 text-gray-700">
+            {/* CONTENT */}
+            <div className="p-4 text-[12px] space-y-3 text-gray-700">
               <p><span className="text-gray-400">Nama</span><br />{mahasiswa.nama}</p>
               <p><span className="text-gray-400">NIM</span><br />{mahasiswa.nim}</p>
               <p><span className="text-gray-400">Email</span><br />{mahasiswa.email || "-"}</p>
               <p><span className="text-gray-400">No Telp</span><br />{mahasiswa.telp || "-"}</p>
             </div>
+
           </div>
 
           {/* INFORMASI AKADEMIK */}
-          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-            <div className="flex items-center gap-2 mb-4 text-gray-700">
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+            
+            {/* HEADER ABU */}
+            <div className="bg-gray-100 px-4 py-2 flex items-center gap-2 border-b border-gray-200">
               <FiBook size={14} />
-              <h3 className="text-sm font-semibold">Informasi Akademik</h3>
+              <h3 className="text-sm font-semibold text-gray-700">
+                Informasi Akademik
+              </h3>
             </div>
 
-            <div className="text-[12px] space-y-3 text-gray-700">
+            {/* CONTENT */}
+            <div className="p-4 text-[12px] space-y-3 text-gray-700">
               <p><span className="text-gray-400">Fakultas</span><br />{mahasiswa.fakultas}</p>
               <p><span className="text-gray-400">Program Studi</span><br />{mahasiswa.prodi}</p>
               <p><span className="text-gray-400">Tahun Masuk</span><br />{mahasiswa.masuk || "-"}</p>
               <p><span className="text-gray-400">Tahun Lulus</span><br />{mahasiswa.tahun}</p>
             </div>
+
           </div>
 
         </div>
 
-        {/* TRANSKRIP */}
+        {/* 🔥 TRANSKRIP NILAI (TIDAK DIUBAH SAMA SEKALI) */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
 
           <div className="flex items-center gap-2 mb-4 text-gray-700">
@@ -197,11 +218,8 @@ const DetailMahasiswa = () => {
           </div>
 
           <div className="border border-gray-200 rounded-lg overflow-hidden">
-
             <div className="max-h-[420px] overflow-y-auto">
-
               <table className="w-full text-[12px] border-collapse">
-
                 <thead className="bg-gray-50 text-gray-500 sticky top-0 z-10 border-b border-gray-200">
                   <tr>
                     <th className="px-3 py-2">Kode</th>
@@ -215,10 +233,7 @@ const DetailMahasiswa = () => {
 
                 <tbody>
                   {nilaiData.map((n, i) => (
-                    <tr
-                      key={i}
-                      className="border-b border-gray-100 hover:bg-gray-50"
-                    >
+                    <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="px-3 py-2 text-center">{n.kode}</td>
                       <td className="px-3 py-2">{n.nama}</td>
                       <td className="px-3 py-2 text-center">{n.sks}</td>
@@ -234,10 +249,9 @@ const DetailMahasiswa = () => {
                 </tbody>
 
               </table>
-
             </div>
-
           </div>
+
         </div>
 
       </div>
