@@ -41,10 +41,10 @@ const IssuanceChart = () => (
             contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} 
           />
           
-          {/* Warna disesuaikan dengan gambar */}
-          <Bar dataKey="y2024" fill="#00E5FF" barSize={16} /> {/* Warna Cyan Terang */}
-          <Bar dataKey="y2025" fill="#0B4B48" barSize={16} /> {/* Warna Teal Sangat Gelap */}
-          <Bar dataKey="y2026" fill="#0F7A77" barSize={16} /> {/* Warna Teal Medium */}
+          {/* Warna disesuaikan dengan gambar. Atribut name ditambahkan agar y hilang di UI tooltip */}
+          <Bar dataKey="y2024" name="2024" fill="#00E5FF" barSize={16} /> {/* Warna Cyan Terang */}
+          <Bar dataKey="y2025" name="2025" fill="#0B4B48" barSize={16} /> {/* Warna Teal Sangat Gelap */}
+          <Bar dataKey="y2026" name="2026" fill="#0F7A77" barSize={16} /> {/* Warna Teal Medium */}
           
         </BarChart>
       </ResponsiveContainer>

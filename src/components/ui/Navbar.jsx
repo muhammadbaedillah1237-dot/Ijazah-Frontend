@@ -1,40 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FiBell, FiUser, FiMenu, FiX } from "react-icons/fi";
-import logo from "../../assets/img/Logo.jpg"; // Sesuaikan path logo Anda
+import { useAuth } from "../../context/AuthContext";
+import logo from "../../assets/img/Logo.jpg";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
+  const [showNotif, setShowNotif] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const notifRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
-  // Mengambil data user yang disimpan oleh Login.jsx di localStorage
-  const [user, setUser] = useState({
-    name: localStorage.getItem("name") || "User",
-    subName: localStorage.getItem("subName") || "Sistem",
-    role: localStorage.getItem("role") || "admin"
-  });
+  const userRole = user?.role?.toLowerCase().trim() || "";
 
-  // Konfigurasi Menu Dinamis berdasarkan Role (seperti sebelumnya)
   const menuConfig = {
-    admin: [
+    sistem: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Template", path: "/template" },
       { name: "Data Mahasiswa", path: "/data-mahasiswa" },
       { name: "Daftar Unit", path: "/daftar-unit" },
       { name: "Daftar Pengguna", path: "/daftar-pengguna" },
     ],
-    operator: [
+    operator_data: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Manajemen Data", path: "/manajemen-data" },
       { name: "Pelaporan", path: "/pelaporan" },
       { name: "Dokumen Valid", path: "/dokumen-valid" },
     ],
-    tata_usaha: [
+    rektor: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Manajemen Data", path: "/manajemen-data" },
       { name: "Pelaporan", path: "/pelaporan" },
+      { name: "Dokumen Valid", path: "/dokumen-valid" },
     ],
-    wakil_dekan: [
+    wakil_rektor: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Manajemen Data", path: "/manajemen-data" },
       { name: "Pelaporan", path: "/pelaporan" },
@@ -44,103 +45,133 @@ const Navbar = () => {
       { name: "Manajemen Data", path: "/manajemen-data" },
       { name: "Pelaporan", path: "/pelaporan" },
     ],
-    rektorat: [
+    wakil_dekan: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Manajemen Data", path: "/manajemen-data" },
       { name: "Pelaporan", path: "/pelaporan" },
     ],
-    wakil_rektor: [
+    tu_fakultas: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Manajemen Data", path: "/manajemen-data" },
       { name: "Pelaporan", path: "/pelaporan" },
     ],
-    rektor: [
+    tu_rektorat: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Manajemen Data", path: "/manajemen-data" },
       { name: "Pelaporan", path: "/pelaporan" },
-      { name: "Dokumen Valid", path: "/dokumen-valid" },
     ],
   };
 
-  const activeMenus = menuConfig[user.role] || [{ name: "Dashboard", path: "/dashboard" }];
+  const menus = menuConfig[userRole] || [{ name: "Dashboard", path: "/dashboard" }];
+  const showNotifIcon = userRole !== "sistem";
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) setShowNotif(false);
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) setOpenMenu(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const linkClass = ({ isActive }) =>
-    `px-4 py-2 text-sm font-medium transition-all duration-300
-     ${isActive ? "text-[#0B4B48] border-b-2 border-[#0B4B48]" : "text-gray-500 hover:text-[#0B4B48]"}`;
+    `px-4 py-2 text-sm font-medium transition-all duration-300 ${
+      isActive ? "text-[#0B4B48] border-b-2 border-[#0B4B48]" : "text-gray-500 hover:text-[#0B4B48]"
+    }`;
+
+  const mobileLinkClass = ({ isActive }) =>
+    `block px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
+      isActive ? "bg-[#0B4B48]/10 text-[#0B4B48] font-semibold" : "text-gray-600 hover:bg-gray-50 hover:text-[#0B4B48]"
+    }`;
 
   return (
-    <nav className="w-full bg-white shadow-sm px-4 md:px-8 py-3 flex items-center justify-between border-b border-gray-100 relative z-50">
-      
-      {/* KIRI: LOGO */}
-      <div className="flex items-center gap-3">
-        <img src={logo} alt="Logo UIKA" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
-        <div className="leading-tight hidden sm:block">
-          <div className="text-[#0B4B48] font-bold text-sm">Universitas</div>
-          <div className="text-[#27AE60] font-bold text-sm">Ibn Khaldun Bogor</div>
-        </div>
-      </div>
+    <nav className={`w-full bg-white sticky top-0 z-50 border-b border-gray-100 transition-shadow duration-300 ${scrolled ? "shadow-md" : "shadow-sm"}`}>
+      <div className="px-4 md:px-8 py-3 flex items-center justify-between">
 
-      {/* TENGAH: NAVIGASI DESKTOP */}
-      <div className="hidden md:flex gap-4 lg:gap-8">
-        {activeMenus.map((menu, idx) => (
-          <NavLink key={idx} to={menu.path} className={linkClass}>
-            {menu.name}
-          </NavLink>
-        ))}
-      </div>
-
-      {/* KANAN: NOTIF & PROFILE */}
-      <div className="flex items-center gap-4 md:gap-6">
-        
-        {/* Bell Icon */}
-        <div className="relative cursor-pointer text-gray-400 hover:text-gray-600">
-          <FiBell size={22} />
-          <span className="absolute top-0 right-0 bg-red-500 w-2.5 h-2.5 rounded-full border-2 border-white"></span>
-        </div>
-
-        {/* Profile Info - KLIK PINDAH KE PROFILE */}
-        <div 
-          className="flex items-center gap-3 border-l pl-4 md:pl-6 cursor-pointer group"
-          onClick={() => navigate('/Profile')}
-        >
-          <div className="text-right leading-tight hidden sm:block">
-            <div className="text-[#0B4B48] font-bold text-sm capitalize">{user.name}</div>
-            <div className="text-[10px] text-teal-600 font-medium capitalize">{user.subName}</div>
-          </div>
-          
-          <div className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-[#0B4B48] flex items-center justify-center text-[#0B4B48] bg-gray-50 group-hover:bg-[#0B4B48] group-hover:text-white transition-colors duration-300">
-            <FiUser size={20} />
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="Logo" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
+          <div className="leading-tight">
+            <div className="text-[#0B4B48] font-bold text-xs md:text-sm">Universitas</div>
+            <div className="text-[#27AE60] font-bold text-xs md:text-sm">Ibn Khaldun Bogor</div>
           </div>
         </div>
 
-        {/* HAMBURGER MOBILE */}
-        <button className="md:hidden ml-1 text-gray-600" onClick={() => setOpenMenu(!openMenu)}>
-          {openMenu ? <FiX size={26} /> : <FiMenu size={26} />}
-        </button>
+        {/* Desktop Nav */}
+        <div className="hidden md:flex gap-1 items-center">
+          {menus.map((menu, idx) => (
+            <NavLink key={idx} to={menu.path} className={linkClass}>{menu.name}</NavLink>
+          ))}
+        </div>
 
+        {/* Right Side */}
+        <div className="flex items-center gap-3 md:gap-5">
+
+          {/* Notifikasi — hanya NON sistem */}
+          {showNotifIcon && (
+            <div className="relative" ref={notifRef}>
+              <button onClick={() => setShowNotif(!showNotif)} className="relative p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <FiBell size={20} className="text-gray-500" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+              </button>
+              {showNotif && (
+                <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 z-50">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Notifikasi</h3>
+                  <p className="text-xs text-gray-500 italic text-center py-2">Tidak ada notifikasi baru.</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Profile */}
+          <div className="flex items-center gap-3 border-l pl-3 md:pl-4 cursor-pointer group" onClick={() => navigate("/profile")}>
+            <div className="text-right leading-tight hidden sm:block">
+              <div className="text-[#0B4B48] font-bold text-sm">{user?.email?.split("@")[0] || "User"}</div>
+              <div className="text-[10px] text-teal-600 font-bold tracking-wide capitalize">
+                {user?.role?.replace(/_/g, " ") || "sistem"}
+              </div>
+            </div>
+            <div className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-[#0B4B48] flex items-center justify-center text-[#0B4B48] bg-gray-50">
+              <FiUser size={18} />
+            </div>
+          </div>
+
+          {/* Hamburger */}
+          <div className="md:hidden" ref={mobileMenuRef}>
+            <button onClick={() => setOpenMenu(!openMenu)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-600">
+              {openMenu ? <FiX size={22} /> : <FiMenu size={22} />}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* MOBILE MENU (DINAMIS) */}
-      <div className={`fixed inset-0 top-[64px] bg-white z-[60] flex flex-col items-center gap-6 pt-10 transition-transform duration-300 ${openMenu ? "translate-x-0" : "translate-x-full"} md:hidden`}>
-        {activeMenus.map((menu, index) => (
-          <NavLink 
-            key={index} 
-            to={menu.path} 
-            className="text-lg font-bold text-gray-700" 
-            onClick={() => setOpenMenu(false)}
-          >
-            {menu.name}
-          </NavLink>
-        ))}
-        <hr className="w-3/4 border-gray-100" />
-        <button 
-          onClick={() => { setOpenMenu(false); navigate('/profile'); }} 
-          className="text-[#0B4B48] font-bold text-lg border-2 border-[#0B4B48] px-8 py-2 rounded-full mt-2"
-        >
-          Lihat Profil
-        </button>
+      {/* Mobile Menu */}
+      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${openMenu ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}`}>
+        <div className="px-4 pb-4 pt-1 border-t border-gray-100 bg-white space-y-1">
+          {menus.map((menu, idx) => (
+            <NavLink key={idx} to={menu.path} className={mobileLinkClass} onClick={() => setOpenMenu(false)}>
+              {menu.name}
+            </NavLink>
+          ))}
+          <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 px-4 py-2">
+            <div className="w-8 h-8 rounded-full border-2 border-[#0B4B48] flex items-center justify-center text-[#0B4B48] bg-gray-50">
+              <FiUser size={16} />
+            </div>
+            <div>
+              <div className="text-[#0B4B48] font-bold text-sm">{user?.email?.split("@")[0] || "User"}</div>
+              <div className="text-[10px] text-teal-600 font-bold tracking-wide capitalize">
+                {user?.role?.replace(/_/g, " ") || "sistem"}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
     </nav>
   );
 };

@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }) => {
       <Navbar />
 
       <main className="w-full px-4 md:px-8 py-6">
-        <div className="w-full max-w-[1400px] mx-auto">
+        <div className="w-full max-w-350 mx-auto">
           {children}
         </div>
       </main>

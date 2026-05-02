@@ -7,46 +7,40 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing auth token on mount
     const token = localStorage.getItem("authToken");
     const userData = localStorage.getItem("user");
 
-    if (token && userData) {
-      setUser(JSON.parse(userData));
+    try {
+      if (token && userData && userData !== "undefined") {
+        setUser(JSON.parse(userData));
+      }
+    } catch (error) {
+      console.error("Gagal memulihkan sesi:", error);
+      localStorage.clear();
     }
     setLoading(false);
   }, []);
-
-  const isAuthenticated = !!user && !!localStorage.getItem("authToken");
 
   const login = (userData, token) => {
     return new Promise((resolve) => {
       localStorage.setItem("authToken", token);
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
-      setTimeout(resolve, 100); // Small delay for state propagation
+      setTimeout(resolve, 50); 
     });
   };
 
   const logout = () => {
-    return Promise.resolve().then(() => {
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("user");
-      setUser(null);
-    });
+    localStorage.clear();
+    setUser(null);
+    window.location.href = "/login";
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, isAuthenticated: !!user }}>
       {!loading && children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);
