@@ -5,7 +5,7 @@ import { FiUser } from "react-icons/fi";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); // 🔥 TAMBAHAN
   const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
@@ -13,15 +13,15 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  const isActiveDataMahasiswa = [
-    "/data-mahasiswa",
-    "/detail-batch",
-    "/detail-mahasiswa",
-  ].some((path) => location.pathname.startsWith(path));
+  // 🔥 CEK ACTIVE MANUAL
+  const isDataMahasiswaActive =
+    location.pathname.startsWith("/data-mahasiswa") ||
+    location.pathname.startsWith("/detail-batch") ||
+    location.pathname.startsWith("/detail-mahasiswa");
 
   const linkClass = (active) =>
-    `relative px-4 py-2 text-sm transition ${
-      active ? "text-[#27AE60] font-semibold" : "text-gray-500"
+    `relative px-4 py-2 text-sm font-semibold transition ${
+      active ? "text-[#27AE60]" : "text-gray-500"
     }`;
 
   const activeLine = (active) =>
@@ -31,10 +31,10 @@ const Navbar = () => {
 
   return (
     <div className="w-full bg-white shadow px-6 py-3 flex items-center justify-between">
-
+      
       {/* LOGO */}
-      <div className="flex items-center gap-3">
-        <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
+      <div className="flex items-center gap-3 select-none cursor-default">
+        <img src={logo} alt="Logo UIKA" className="w-12 h-12 object-contain" />
         <div className="leading-tight">
           <div className="text-black font-semibold text-sm">Universitas</div>
           <div className="text-[#27AE60] font-bold text-sm">
@@ -46,6 +46,7 @@ const Navbar = () => {
       {/* MENU */}
       <div className="flex gap-6">
 
+        {/* DASHBOARD */}
         <NavLink to="/dashboard">
           {({ isActive }) => (
             <span className={linkClass(isActive) + " " + activeLine(isActive)}>
@@ -54,6 +55,7 @@ const Navbar = () => {
           )}
         </NavLink>
 
+        {/* TEMPLATE */}
         <NavLink to="/template">
           {({ isActive }) => (
             <span className={linkClass(isActive) + " " + activeLine(isActive)}>
@@ -62,18 +64,22 @@ const Navbar = () => {
           )}
         </NavLink>
 
+        {/* 🔥 DATA MAHASISWA (FIX UTAMA) */}
         <NavLink to="/data-mahasiswa">
-          <span
-            className={
-              linkClass(isActiveDataMahasiswa) +
-              " " +
-              activeLine(isActiveDataMahasiswa)
-            }
-          >
-            Data Mahasiswa
-          </span>
+          {() => (
+            <span
+              className={
+                linkClass(isDataMahasiswaActive) +
+                " " +
+                activeLine(isDataMahasiswaActive)
+              }
+            >
+              Data Mahasiswa
+            </span>
+          )}
         </NavLink>
 
+        {/* DAFTAR UNIT */}
         <NavLink to="/daftar-unit">
           {({ isActive }) => (
             <span className={linkClass(isActive) + " " + activeLine(isActive)}>
@@ -82,20 +88,19 @@ const Navbar = () => {
           )}
         </NavLink>
 
-        {/* 🔥 FIX FINAL: DAFTAR PENGGUNA */}
-        <NavLink to="/daftar-pengguna">
-          {({ isActive }) => (
-            <span className={linkClass(isActive) + " " + activeLine(isActive)}>
-              Daftar Pengguna
-            </span>
-          )}
-        </NavLink>
+        {/* DAFTAR PENGGUNA */}
+        <button
+          onClick={() => navigate("/daftar-pengguna")}
+          className="px-4 py-2 text-sm font-semibold text-gray-500"
+        >
+          Daftar Pengguna
+        </button>
 
       </div>
 
       {/* PROFILE */}
       <div className="relative flex items-center gap-3">
-
+        
         <div className="text-right leading-tight">
           <div className="text-sm font-semibold text-gray-800">Admin</div>
           <div className="text-xs text-gray-500">Sistem</div>
@@ -118,7 +123,6 @@ const Navbar = () => {
             </button>
           </div>
         )}
-
       </div>
 
     </div>
