@@ -1,8 +1,11 @@
 import React from "react";
 
-const StatCard = ({ title, value, sub, subColor, icon }) => {
+const StatCard = ({ title, value, sub, subColor, icon,  onClick, }) => {
   return (
-    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-full">
+    <div
+          onClick={onClick}
+           className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-full cursor-pointer"
+          >
       <div>
         <p className="text-xs text-gray-500 font-medium mb-2">{title}</p>
         <div className="flex justify-between items-center">

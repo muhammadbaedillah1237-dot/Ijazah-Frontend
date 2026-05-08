@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
+=======
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+>>>>>>> origin/bae-frontend
 import { FiSearch } from "react-icons/fi";
 import DashboardLayout from "../components/ui/DashboardLayout";
 import StatCard from "../components/ui/StatCard";
@@ -61,6 +66,7 @@ const fullDummyData = generateDummyData();
 const Dashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+<<<<<<< HEAD
   const [selectedFakultas, setSelectedFakultas] = useState("Semua Fakultas");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -74,6 +80,110 @@ const Dashboard = () => {
     "Fakultas Agama Islam",
     "Fakultas Ilmu Kesehatan"
   ];
+=======
+  const navigate = useNavigate();
+
+  // 10 Dummy Data Presisi sesuai Figma
+  const namaList = [
+  "Adi Saputra",
+  "Rani Maharani",
+  "Budi Pratama",
+  "Siti Aisyah",
+  "Dimas Nugraha",
+  "Fajar Ramadhan",
+  "Putri Lestari",
+  "Andi Wijaya",
+  "Rizky Maulana",
+  "Nabila Putri",
+  "Yoga Pratama",
+  "Citra Dewi",
+  "Hendra Gunawan",
+  "Aulia Rahman",
+  "Dewi Kartika",
+  "Kayla Key",
+  "Risma Puspita",
+  "Zahra Nabil",
+  "Eagle Al-Haikal",
+  "Rizky Gusti A",
+];
+
+const fakultasData = [
+  {
+    fakultas: "Fakultas Teknik dan Sains",
+    batch: "FTS",
+    prodi: [
+      "Teknik Informatika",
+      "Teknik Mesin",
+      "Teknik Sipil",
+    ],
+  },
+  {
+    fakultas: "Fakultas Ekonomi dan Bisnis",
+    batch: "FEB",
+    prodi: [
+      "Manajemen",
+      "Akuntansi",
+      "Bisnis Digital",
+    ],
+  },
+  {
+    fakultas: "Fakultas Hukum",
+    batch: "FH",
+    prodi: ["Ilmu Hukum"],
+  },
+  {
+    fakultas: "Fakultas Ilmu Kesehatan",
+    batch: "FIKES",
+    prodi: [
+      "Keperawatan",
+      "Kesehatan Masyarakat",
+    ],
+  },
+];
+
+const statusList = [
+  "Terbit",
+  "Proses",
+  "Reject",
+  "Revoke",
+];
+
+const getRandom = (arr) =>
+  arr[Math.floor(Math.random() * arr.length)];
+
+const dummyData = Array.from({ length: 10 }, (_, i) => {
+  const fak = getRandom(fakultasData);
+
+  return {
+    n: getRandom(namaList),
+
+    b: `Batch ${Math.floor(Math.random() * 30) + 1} - ${fak.batch}`,
+
+    nim:
+      "23110604" +
+      Math.floor(Math.random() * 9999),
+
+    f: fak.fakultas,
+
+    p: getRandom(fak.prodi),
+
+    t: String(
+      2024 + Math.floor(Math.random() * 3)
+    ),
+
+    s: getRandom(statusList),
+  };
+});
+  const filteredData = dummyData.filter((item) => {
+  const keyword = searchQuery.toLowerCase();
+
+  return (
+    item.n.toLowerCase().includes(keyword) ||
+    item.nim.toLowerCase().includes(keyword) ||
+    item.p.toLowerCase().includes(keyword)
+  );
+});
+>>>>>>> origin/bae-frontend
 
   const filteredData = fullDummyData.filter((item) => {
     const searchLower = searchQuery.toLowerCase();
@@ -98,13 +208,23 @@ const Dashboard = () => {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const getBadgeColor = (status) => {
-    switch (status) {
-      case "Terbit": return "bg-[#27AE60] text-white";
-      case "Proses": return "bg-[#3B82F6] text-white";
-      case "Reject": return "bg-[#EF4444] text-white";
-      default: return "bg-gray-400 text-white";
-    }
-  };
+  switch (status) {
+    case "Terbit":
+      return "bg-[#27AE60] text-white";
+
+    case "Proses":
+      return "bg-[#3B82F6] text-white";
+
+    case "Reject":
+      return "bg-[#EF4444] text-white";
+
+    case "Revoke":
+      return "bg-[#F59E0B] text-white";
+
+    default:
+      return "bg-gray-400 text-white";
+  }
+};
 
   const renderPaginationButtons = () => {
     const pages = [];
@@ -150,6 +270,7 @@ const Dashboard = () => {
         <p className="text-sm text-gray-400 mt-1">Update terakhir: 17 Januari 2026, 09:10 WIB</p>
       </div>
 
+<<<<<<< HEAD
      {/* STAT CARDS */}
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
@@ -194,6 +315,25 @@ const Dashboard = () => {
   </div>
 
 </div>
+=======
+      {/* STAT CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+
+        {/* STAT CARDS IJAZAH TERBIT */}
+        <StatCard
+         onClick={() => navigate("/ijazah-terbit")}
+          title="Jumlah Ijazah Terbit"
+          value="5.625"
+          sub="20 Ijazah Terbit Minggu ini"
+          subColor="text-[#27AE60]"
+          icon={Icons.Badge}
+            />
+            
+        <StatCard title="Jumlah Ijazah di Proses" value="451" sub="12 di Proses Minggu ini" subColor="text-[#3B82F6]" icon={Icons.Check} />
+        <StatCard title="Jumlah Ijazah di Reject" value="42" sub="2 Data di Reject Minggu ini" subColor="text-[#EF4444]" icon={Icons.Close} />
+        <StatCard title="Jumlah Ijazah di Revoke" value="17" sub="Tidak ada perubahan Minggu ini" subColor="text-[#F59E0B]" icon={Icons.List} />
+      </div>
+>>>>>>> origin/bae-frontend
 
       {/* CHARTS SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
@@ -263,6 +403,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody className="text-gray-700">
+<<<<<<< HEAD
               {currentData.length > 0 ? (
                 currentData.map((row, i) => (
                   <tr key={i} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
@@ -286,6 +427,23 @@ const Dashboard = () => {
                 <tr>
                   <td colSpan="7" className="py-10 text-center text-gray-500 font-medium">
                     Data tidak ditemukan.
+=======
+              {filteredData.map((row, i) => (
+                <tr key={i} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                  <td className="py-4 px-6 font-bold">{i + 1}.</td>
+                  <td className="py-4 px-6">
+                    <div className="font-bold text-gray-800">{row.n}</div>
+                    <div className="text-[11px] text-gray-400 mt-0.5">{row.b}</div>
+                  </td>
+                  <td className="py-4 px-6 text-center font-bold text-gray-700">{row.nim}</td>
+                  <td className="py-4 px-6 text-center text-gray-600 font-medium">{row.f}</td>
+                  <td className="py-4 px-6 text-center text-gray-600 font-medium">{row.p}</td>
+                  <td className="py-4 px-6 text-center font-bold text-gray-700">{row.t}</td>
+                  <td className="py-4 px-6 text-center">
+                    <span className={`px-5 py-1.5 rounded-full text-xs font-bold ${getBadgeColor(row.s)}`}>
+                      {row.s}
+                    </span>
+>>>>>>> origin/bae-frontend
                   </td>
                 </tr>
               )}
