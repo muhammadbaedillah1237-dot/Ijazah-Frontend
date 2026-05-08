@@ -1,28 +1,24 @@
 import React from "react";
 
-const StatCard = ({ title, value, sub, subColor, icon, trend }) => (
-  <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-50 flex justify-between items-start">
-    <div>
-      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-        {title}
+const StatCard = ({ title, value, sub, subColor, icon }) => {
+  return (
+    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-full">
+      <div>
+        <p className="text-xs text-gray-500 font-medium mb-2">{title}</p>
+        <div className="flex justify-between items-center">
+          <h2 className="text-3xl font-bold text-gray-800">
+            {value?.toLocaleString("id-ID") || "0"}
+          </h2>
+          <div className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-100 bg-white shadow-sm">
+            {icon}
+          </div>
+        </div>
+      </div>
+      <p className={`text-[11px] mt-4 font-medium ${subColor || "text-gray-400"}`}>
+        {sub}
       </p>
-      <h2 className="text-2xl font-black text-gray-800 mt-1">
-        {value?.toLocaleString("id-ID") || "0"}
-      </h2>
-      {sub && (
-        <p className={`text-[9px] font-bold mt-4 ${subColor || "text-gray-400"}`}>
-          {sub}
-        </p>
-      )}
-      {trend !== undefined && (
-        <p className={`text-[9px] font-bold mt-2 ${trend >= 0 ? "text-green-500" : "text-red-500"}`}>
-          {trend >= 0 ? "↑" : "↓"} {Math.abs(trend)}% dari bulan lalu
-        </p>
-      )}
     </div>
-    <div className="text-2xl p-2 bg-gray-50 rounded-xl">{icon || "📊"}</div>
-  </div>
-);
+  );
+};
 
 export default StatCard;
-

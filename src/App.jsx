@@ -12,7 +12,9 @@ import Login from "./pages/login";
 import Dashboard from "./pages/Dashboard";
 import Verifikasi from "./pages/Verifikasi";
 import Template from "./pages/Template";
-import DataMahasiswa from "./pages/DataMahasiswa"; // ✅ TAMBAHAN
+import DataMahasiswa from "./pages/DataMahasiswa";
+import Profile from "./pages/Profile"; // ✅ JANGAN LUPA IMPORT INI
+import DaftarPengguna from "./pages/DaftarPengguna";
 
 function App() {
   return (
@@ -51,7 +53,6 @@ function App() {
             }
           />
 
-          {/* ✅ DATA MAHASISWA */}
           <Route
             path="/data-mahasiswa"
             element={
@@ -60,11 +61,29 @@ function App() {
               </ProtectedRoute>
             }
           />
+           <Route
+            path="/daftar-pengguna"
+            element={
+              <ProtectedRoute>
+                <DaftarPengguna />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ✅ PROFILE (Pindahkan ke atas Fallback) */}
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />  
 
           {/* DEFAULT */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* FALLBACK */}
+          {/* FALLBACK (Selalu letakkan ini di Paling Bawah) */}
           <Route path="*" element={<Navigate to="/login" replace />} />
 
         </Routes>

@@ -1,140 +1,68 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+import React from 'react';
+import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-// Register ChartJS components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+// Data dummy yang disesuaikan secara visual agar mirip dengan grafik di gambar
+const data = [
+  { name: 'Jan', y2024: 45, y2025: 30, y2026: 70 },
+  { name: 'Feb', y2024: 65, y2025: 55, y2026: 45 },
+  { name: 'Mar', y2024: 25, y2025: 45, y2026: 35 },
+  { name: 'Apr', y2024: 75, y2025: 50, y2026: 65 },
+  { name: 'Mei', y2024: 70, y2025: 85, y2026: 80 },
+  { name: 'Jun', y2024: 55, y2025: 60, y2026: 45 },
+  { name: 'Jul', y2024: 70, y2025: 45, y2026: 60 },
+  { name: 'Ags', y2024: 65, y2025: 55, y2026: 85 },
+  { name: 'Sep', y2024: 30, y2025: 50, y2026: 40 },
+  { name: 'Okt', y2024: 45, y2025: 35, y2026: 55 },
+  { name: 'Nov', y2024: 80, y2025: 70, y2026: 75 },
+  { name: 'Des', y2024: 65, y2025: 70, y2026: 75 },
+];
 
-const IssuanceChart = ({ data, loading }) => {
-  // Get screen width to adjust chart for mobile
-  const [isMobile, setIsMobile] = React.useState(false);
-  
-  React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+const IssuanceChart = () => (
+  <div className="w-full flex flex-col h-full mt-4">
+    {/* Kontainer Chart */}
+    <div className="h-64 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        {/* barGap={0} digunakan agar bar saling berdempetan persis seperti di desain */}
+        <BarChart data={data} barGap={0} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+          
+          {/* Sumbu X (Bulan) */}
+          <XAxis 
+            dataKey="name" 
+            axisLine={false} 
+            tickLine={false} 
+            tick={{fontSize: 13, fill: '#9ca3af', fontWeight: 500}} 
+            dy={10} 
+          />
+          
+          {/* Sumbu Y dan CartesianGrid Sengaja dihilangkan agar latar belakang bersih seperti desain */}
 
-  const chartData = {
-    labels: data?.labels || ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"],
-    datasets: [
-      {
-        label: "Penerbitan Ijazah",
-        data: data?.data || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        backgroundColor: "#16c65e",
-        borderRadius: 6,
-        barThickness: isMobile ? 12 : 24,
-        borderSkipped: false,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    // Only trigger tooltips on click, not on hover/touch to prevent issues on Android
-    events: isMobile ? ['click'] : ['mousemove', 'mouseout', 'click'],
-    plugins: {
-      legend: {
-        display: false,
-      },
-      title: {
-        display: false,
-      },
-      tooltip: {
-        enabled: !isMobile,
-        backgroundColor: "#1a1a1a",
-        titleFont: {
-          size: 12,
-          weight: "bold",
-        },
-        bodyFont: {
-          size: 11,
-        },
-        padding: 10,
-        cornerRadius: 8,
-        displayColors: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: isMobile ? 9 : 11,
-            weight: "500",
-          },
-          color: "#828282",
-          maxRotation: isMobile ? 45 : 0,
-        },
-      },
-      y: {
-        beginAtZero: true,
-        grid: {
-          color: "#f0f0f0",
-          drawBorder: false,
-        },
-        ticks: {
-          font: {
-            size: isMobile ? 9 : 11,
-          },
-          color: "#828282",
-          padding: 8,
-        },
-      },
-    },
-  };
-
-  return (
-    <div className="bg-white p-4 md:p-6 rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-gray-100">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-6">
-        <h3 className="text-[14px] md:text-[16px] font-bold text-[#2D2D2D]">
-          Statistik Penerbitan Ijazah
-        </h3>
-        <select className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 focus:outline-none focus:ring-1 focus:ring-teal-500">
-          <option value="2024">2027</option>
-          <option value="2023">2026</option>
-          <option value="2022">2025</option>
-          <option value="2022">2024</option>
-          <option value="2022">2023</option>
-          <option value="2022">2022</option>
-        </select>
+          <Tooltip 
+            cursor={{fill: '#f3f4f6'}} 
+            contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} 
+          />
+          
+          {/* Warna disesuaikan dengan gambar */}
+          <Bar dataKey="y2024" fill="#00E5FF" barSize={16} /> {/* Warna Cyan Terang */}
+          <Bar dataKey="y2025" fill="#0B4B48" barSize={16} /> {/* Warna Teal Sangat Gelap */}
+          <Bar dataKey="y2026" fill="#0F7A77" barSize={16} /> {/* Warna Teal Medium */}
+          
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+    
+    {/* Custom Legend (Tepat di bawah grafik) */}
+    <div className="flex justify-center gap-3 mt-6">
+      <div className="px-4 py-1.5 bg-[#00E5FF] text-black text-xs font-bold rounded-md shadow-sm">
+        Tahun 2024
       </div>
-      <div className="h-[200px] md:h-[280px]">
-        {loading ? (
-          <div className="h-full flex items-center justify-center">
-            <div className="animate-pulse flex flex-col items-center">
-              <div className="h-4 w-4 bg-teal-500 rounded-full animate-bounce"></div>
-              <span className="text-xs text-gray-400 mt-2">Memuat data...</span>
-            </div>
-          </div>
-        ) : (
-          <Bar data={chartData} options={options} />
-        )}
+      <div className="px-4 py-1.5 bg-[#0B4B48] text-white text-xs font-bold rounded-md shadow-sm">
+        Tahun 2025
+      </div>
+      <div className="px-4 py-1.5 bg-[#0F7A77] text-white text-xs font-bold rounded-md shadow-sm">
+        Tahun 2026
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default IssuanceChart;
-
