@@ -12,8 +12,14 @@ import Login from "./pages/login";
 import Dashboard from "./pages/Dashboard";
 import Verifikasi from "./pages/Verifikasi";
 import Template from "./pages/Template";
-import DataMahasiswa from "./pages/DataMahasiswa"; 
-import Profile from "./pages/Profile"; // ✅ JANGAN LUPA IMPORT INI
+import DataMahasiswa from "./pages/DataMahasiswa";
+import Profile from "./pages/Profile";
+
+// IJAZAH PAGES
+import IjazahTerbit from "./pages/IjazahTerbit";
+import IjazahProses from "./pages/IjazahProses";
+import IjazahReject from "./pages/IjazahReject";
+import IjazahRevoke from "./pages/IjazahRevoke";
 
 function App() {
   return (
@@ -27,54 +33,52 @@ function App() {
           {/* PROTECTED */}
           <Route
             path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
           />
 
           <Route
             path="/verifikasi"
-            element={
-              <ProtectedRoute>
-                <Verifikasi />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute><Verifikasi /></ProtectedRoute>}
           />
 
           <Route
             path="/template"
-            element={
-              <ProtectedRoute>
-                <Template />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute><Template /></ProtectedRoute>}
           />
 
           <Route
             path="/data-mahasiswa"
-            element={
-              <ProtectedRoute>
-                <DataMahasiswa />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute><DataMahasiswa /></ProtectedRoute>}
           />
 
-          {/* ✅ PROFILE (Pindahkan ke atas Fallback) */}
-          <Route 
-            path="/profile" 
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } 
-          />  
+          <Route
+            path="/profile"
+            element={<ProtectedRoute><Profile /></ProtectedRoute>}
+          />
+
+          {/* IJAZAH ROUTES 🔥 */}
+          <Route
+            path="/ijazah-terbit"
+            element={<ProtectedRoute><IjazahTerbit /></ProtectedRoute>}
+          />
+
+          <Route
+            path="/ijazah-proses"
+            element={<ProtectedRoute><IjazahProses /></ProtectedRoute>}
+          />
+
+          <Route
+            path="/ijazah-reject"
+            element={<ProtectedRoute><IjazahReject /></ProtectedRoute>}
+          />
+
+          <Route
+            path="/ijazah-revoke"
+            element={<ProtectedRoute><IjazahRevoke /></ProtectedRoute>}
+          />
 
           {/* DEFAULT */}
           <Route path="/" element={<Navigate to="/login" replace />} />
-
-          {/* FALLBACK (Selalu letakkan ini di Paling Bawah) */}
           <Route path="*" element={<Navigate to="/login" replace />} />
 
         </Routes>

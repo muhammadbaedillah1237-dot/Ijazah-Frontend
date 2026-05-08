@@ -5,6 +5,7 @@ import StatCard from "../components/ui/StatCard";
 import IssuanceChart from "../components/ui/IssuanceChart";
 import VerificationStatusChart from "../components/ui/VerificationStatusChart";
 import { Icons } from "../icon/DashboardIcons"; // <-- Import icon dari folder icon
+import { useNavigate } from "react-router-dom";
 
 // ==========================================
 // FUNGSI GENERATOR 6.135 DATA DUMMY
@@ -53,11 +54,12 @@ const generateDummyData = () => {
     data.push(item);
   }
   return data;
-};
+};  
 
 const fullDummyData = generateDummyData();
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFakultas, setSelectedFakultas] = useState("Semua Fakultas");
   const [currentPage, setCurrentPage] = useState(1);
@@ -148,13 +150,50 @@ const Dashboard = () => {
         <p className="text-sm text-gray-400 mt-1">Update terakhir: 17 Januari 2026, 09:10 WIB</p>
       </div>
 
-      {/* STAT CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Jumlah Ijazah Terbit" value="5.625" sub="20 Ijazah Terbit Minggu ini" subColor="text-[#27AE60]" icon={Icons.Badge} />
-        <StatCard title="Jumlah Ijazah di Proses" value="451" sub="12 di Proses Minggu ini" subColor="text-[#16719E]" icon={Icons.Check} />
-        <StatCard title="Jumlah Ijazah di Reject" value="42" sub="2 Data di Reject Minggu ini" subColor="text-[#EF4444]" icon={Icons.Close} />
-        <StatCard title="Jumlah Ijazah di Revoke" value="17" sub="Tidak ada perubahan Minggu ini" subColor="text-[#F59E0B]" icon={Icons.List} />
-      </div>
+     {/* STAT CARDS */}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+
+  <div onClick={() => navigate("/ijazah-terbit")} className="cursor-pointer">
+    <StatCard
+      title="Jumlah Ijazah Terbit"
+      value="5.625"
+      sub="20 Ijazah Terbit Minggu ini"
+      subColor="text-[#27AE60]"
+      icon={Icons.Badge}
+    />
+  </div>
+
+  <div onClick={() => navigate("/ijazah-proses")} className="cursor-pointer">
+    <StatCard
+      title="Jumlah Ijazah di Proses"
+      value="451"
+      sub="12 di Proses Minggu ini"
+      subColor="text-[#16719E]"
+      icon={Icons.Check}
+    />
+  </div>
+
+  <div onClick={() => navigate("/ijazah-reject")} className="cursor-pointer">
+    <StatCard
+      title="Jumlah Ijazah di Reject"
+      value="42"
+      sub="2 Data di Reject Minggu ini"
+      subColor="text-[#EF4444]"
+      icon={Icons.Close}
+    />
+  </div>
+
+  <div onClick={() => navigate("/ijazah-revoke")} className="cursor-pointer">
+    <StatCard
+      title="Jumlah Ijazah di Revoke"
+      value="17"
+      sub="Tidak ada perubahan Minggu ini"
+      subColor="text-[#F59E0B]"
+      icon={Icons.List}
+    />
+  </div>
+
+</div>
 
       {/* CHARTS SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
