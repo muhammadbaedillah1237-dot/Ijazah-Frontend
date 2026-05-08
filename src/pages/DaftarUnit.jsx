@@ -480,201 +480,286 @@ const handleProdiFile = (e) => {
         </div>
 
         {/* MODAL */}
-        {openModal && (
-          <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-            <div className="bg-white w-[780px] rounded-xl shadow-md">
-
-              <div className="px-6 py-4 border-b border-gray-100">
-                <h2 className="text-sm font-semibold">Tambah Unit</h2>
-              </div>
-
-              <div className="p-6 space-y-5">
-
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <p className="text-[11px] text-gray-500">Jenis Unit</p>
-                      <select
-                        value={form.jenis}
-                        onChange={handleChange("jenis")}
-                        className="border border-gray-200 rounded-md p-2 text-sm w-full"
-                      >
-                        <option value="">Pilih</option>
-                        <option>Universitas</option>
-                        <option>Fakultas</option>
-                      </select>
-                    </div>
-
-                    <InputField label="Nama Unit" value={form.nama} onChange={handleChange("nama")} />
-                    <InputField label="Nama English" value={form.en} onChange={handleChange("en")} />
-                  </div>
-                </div>
-
-                <div className="space-y-5">
-                  <div className="grid grid-cols-3 gap-4">
-                    <InputField label={labelPimpinan} value={form.dekan} onChange={handleChange("dekan")} />
-                    <InputField label="NIDN" value={form.nidnDekan} onChange={handleChange("nidnDekan")} />
-                    <FileUpload label={labelTTD} file={form.ttdDekan} onChange={handleFile("ttdDekan")} />
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <InputField label={labelWakil} value={form.wakil} onChange={handleChange("wakil")} />
-                    <InputField label="NIDN Wakil" value={form.nidnWakil} onChange={handleChange("nidnWakil")} />
-                    <FileUpload label={labelParafWakil} file={form.parafWakil} onChange={handleFile("parafWakil")} />
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <InputField label={labelKatu} value={form.katu} onChange={handleChange("katu")} />
-                    <FileUpload label={labelParafKatu} file={form.parafKatu} onChange={handleFile("parafKatu")} />
-                    <FileUpload label={labelStempel} file={form.stempel} onChange={handleFile("stempel")} />
-                  </div>
-                </div>
-
-              </div>
-
-              <div className="flex justify-end gap-3 px-6 py-4 border-t border-gray-100">
-                <button onClick={()=>setOpenModal(false)}
-                  className="px-4 py-2 text-xs bg-gray-100 rounded-md">
-                  Batal
-                </button>
-                <button onClick={handleSave}
-                  className="px-4 py-2 text-xs bg-[#1F7A6E] text-white rounded-md">
-                  Simpan
-                </button>
-              </div>
-
-            </div>
-          </div>
-        )}
-{openProdiForm && (
-  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-
-    <div className="bg-white w-[650px] rounded-xl shadow-lg overflow-hidden">
-
-
-
-      {/* HEADER */}
-      <div className="px-5 py-3 border-b border-gray-100">
-        <h2 className="text-sm font-semibold text-gray-800">
-          Tambah Program Studi
-        </h2>
+{openModal && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+    <div className="bg-white w-[900px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl">
+      <div className="px-6 py-5 border-b border-gray-200">
+        <h2 className="text-xl font-bold text-gray-800">{editId ? "Edit Unit" : "Tambah Unit"}</h2>
+        <p className="text-sm text-gray-500 mt-1">Lengkapi data unit di bawah ini</p>
       </div>
 
-      {/* BODY */}
-      <div className="p-5 space-y-5">
+      <div className="p-6 space-y-6">
+        {/* Jenis Unit & Nama - DENGAN STYLE DROPDOWN SEPERTI DAFTAR PENGGUNA */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          {/* JENIS UNIT - STYLE SAMA PERSIS DENGAN DAFTAR PENGGUNA */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">Jenis Unit</label>
+            <div className="relative">
+              <select
+                value={form.jenis}
+                onChange={handleChange("jenis")}
+                className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 pr-12 bg-gray-50 outline-none focus:border-[#0B4B48] appearance-none"
+              >
+                <option value="" disabled hidden>Pilih Jenis Unit</option>
+                <option value="Universitas">Universitas</option>
+                <option value="Fakultas">Fakultas</option>
+              </select>
+              <FiChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-black text-lg" />
+            </div>
+          </div>
 
-        {/* 🔥 NAMA FAKULTAS (READ ONLY / PENANDA) */}
-        <div>
-          <p className="text-[11px] text-gray-500">Fakultas</p>
-          <div className="px-3 py-2 bg-white border border-gray-200 rounded-md text-sm text-gray-800">
+          {/* NAMA UNIT */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">Nama Unit</label>
+            <input
+              value={form.nama}
+              onChange={handleChange("nama")}
+              placeholder="Masukkan nama unit"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
+            />
+          </div>
+
+          {/* NAMA ENGLISH */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">Nama (English)</label>
+            <input
+              value={form.en}
+              onChange={handleChange("en")}
+              placeholder="Nama unit dalam bahasa Inggris"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
+            />
+          </div>
+        </div>
+
+        {/* Pimpinan Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">{labelPimpinan}</label>
+            <input
+              value={form.dekan}
+              onChange={handleChange("dekan")}
+              placeholder={`Nama ${labelPimpinan}`}
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">NIDN</label>
+            <input
+              value={form.nidnDekan}
+              onChange={handleChange("nidnDekan")}
+              placeholder="NIDN"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">{labelTTD}</label>
+            <input
+              type="file"
+              onChange={handleFile("ttdDekan")}
+              className="w-full text-sm text-gray-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+            />
+            {form.ttdDekan?.name && <p className="text-xs text-gray-400 mt-1">{form.ttdDekan.name}</p>}
+          </div>
+        </div>
+
+        {/* Wakil Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">{labelWakil}</label>
+            <input
+              value={form.wakil}
+              onChange={handleChange("wakil")}
+              placeholder={`Nama ${labelWakil}`}
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">NIDN Wakil</label>
+            <input
+              value={form.nidnWakil}
+              onChange={handleChange("nidnWakil")}
+              placeholder="NIDN Wakil"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">{labelParafWakil}</label>
+            <input
+              type="file"
+              onChange={handleFile("parafWakil")}
+              className="w-full text-sm text-gray-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+            />
+            {form.parafWakil?.name && <p className="text-xs text-gray-400 mt-1">{form.parafWakil.name}</p>}
+          </div>
+        </div>
+
+        {/* KATU Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">{labelKatu}</label>
+            <input
+              value={form.katu}
+              onChange={handleChange("katu")}
+              placeholder={`Nama ${labelKatu}`}
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">{labelParafKatu}</label>
+            <input
+              type="file"
+              onChange={handleFile("parafKatu")}
+              className="w-full text-sm text-gray-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+            />
+            {form.parafKatu?.name && <p className="text-xs text-gray-400 mt-1">{form.parafKatu.name}</p>}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">{labelStempel}</label>
+            <input
+              type="file"
+              onChange={handleFile("stempel")}
+              className="w-full text-sm text-gray-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+            />
+            {form.stempel?.name && <p className="text-xs text-gray-400 mt-1">{form.stempel.name}</p>}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-end gap-3 px-6 py-5 bg-gray-50 border-t border-gray-200 rounded-b-2xl">
+        <button
+          onClick={() => setOpenModal(false)}
+          className="px-6 py-2 rounded-xl bg-white border border-gray-300 shadow-md text-black font-medium hover:bg-gray-50 transition"
+        >
+          Batal
+        </button>
+        <button
+          onClick={handleSave}
+          className="px-6 py-2 rounded-xl bg-[#0B4B48] shadow-md text-white font-medium hover:bg-[#083c3a] transition"
+        >
+          Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+{openProdiForm && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+    <div className="bg-white w-[900px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl">
+      <div className="px-6 py-5 border-b border-gray-200">
+        <h2 className="text-xl font-bold text-gray-800">Tambah Program Studi</h2>
+        <p className="text-sm text-gray-500 mt-1">Lengkapi data program studi di bawah ini</p>
+      </div>
+
+      <div className="p-6 space-y-6">
+        {/* NAMA FAKULTAS (READ ONLY / PENANDA) */}
+        <div className="flex flex-col gap-2">
+          <label className="text-black font-semibold text-sm">Fakultas</label>
+          <div className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-100 text-gray-800">
             {units.find((u) => u.id === activeUnitId)?.nama || "-"}
           </div>
         </div>
 
-        {/* 🔥 ROW 1 */}
-        <div className="grid grid-cols-3 gap-3">
-
-          <div>
-            <p className="text-[11px] text-gray-500 mb-1">Nama Prodi</p>
+        {/* ROW 1 - Nama Prodi, Nama English, No SK Akreditasi */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          {/* NAMA PRODI */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">Nama Prodi</label>
             <input
               value={prodiForm.nama}
               onChange={(e) =>
                 setProdiForm({ ...prodiForm, nama: e.target.value })
               }
-              className="w-full border border-gray-200 rounded-md p-2 text-sm"
+              placeholder="Masukkan nama program studi"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
             />
           </div>
 
-          <div>
-            <p className="text-[11px] text-gray-500 mb-1">Nama Program Studi (English)</p>
+          {/* NAMA PROGRAM STUDI (ENGLISH) */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">Nama Program Studi (English)</label>
             <input
               value={prodiForm.namaEn}
               onChange={(e) =>
                 setProdiForm({ ...prodiForm, namaEn: e.target.value })
               }
-              className="w-full border border-gray-200 rounded-md p-2 text-sm"
+              placeholder="Nama program studi dalam bahasa Inggris"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
             />
           </div>
 
-          <div>
-            <p className="text-[11px] text-gray-500 mb-1">No SK Akreditasi</p>
+          {/* NO SK AKREDITASI */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">No SK Akreditasi</label>
             <input
               value={prodiForm.sk}
               onChange={(e) =>
                 setProdiForm({ ...prodiForm, sk: e.target.value })
               }
-              className="w-full border border-gray-200 rounded-md p-2 text-sm"
+              placeholder="Nomor SK Akreditasi"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
             />
           </div>
-
         </div>
 
-        {/* 🔥 ROW 2 */}
-        <div className="grid grid-cols-3 gap-3">
-
-          <div>
-            <p className="text-[11px] text-gray-500 mb-1">
-              Kepala Program Studi
-            </p>
+        {/* ROW 2 - Kepala Prodi, NIDN, File */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          {/* KEPALA PROGRAM STUDI */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">Kepala Program Studi</label>
             <input
               value={prodiForm.ketua}
               onChange={(e) =>
                 setProdiForm({ ...prodiForm, ketua: e.target.value })
               }
-              className="w-full border border-gray-200 rounded-md p-2 text-sm"
+              placeholder="Nama Kepala Program Studi"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
             />
           </div>
 
-          <div>
-            <p className="text-[11px] text-gray-500 mb-1">NIDN Kepala Program Studi</p>
+          {/* NIDN KEPALA PROGRAM STUDI */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">NIDN Kepala Program Studi</label>
             <input
               value={prodiForm.nidn}
               onChange={(e) =>
                 setProdiForm({ ...prodiForm, nidn: e.target.value })
               }
-              className="w-full border border-gray-200 rounded-md p-2 text-sm"
+              placeholder="NIDN"
+              className="w-full border border-gray-400 shadow-lg rounded-2xl px-4 py-3 text-sm bg-gray-50 outline-none focus:border-[#0B4B48]"
             />
           </div>
 
-          {/* FILE */}
-          <div>
-            <p className="text-[11px] text-gray-500 mb-1">File Paraf Kepala Program Studi</p>
-
-            <label className="bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs px-3 py-2 rounded-md cursor-pointer inline-flex items-center">
-              Choose File
-              <input type="file" hidden onChange={handleProdiFile} />
-            </label>
-
-            <span className="text-xs text-gray-400 ml-2">
-              {prodiForm.file ? prodiForm.file.name : "No file"}
-            </span>
+          {/* FILE PARAF KEPALA PROGRAM STUDI */}
+          <div className="flex flex-col gap-2">
+            <label className="text-black font-semibold text-sm">File Paraf Kepala Program Studi</label>
+            <input
+              type="file"
+              onChange={handleProdiFile}
+              className="w-full text-sm text-gray-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+            />
+            {prodiForm.file?.name && <p className="text-xs text-gray-400 mt-1">{prodiForm.file.name}</p>}
           </div>
-
         </div>
-
       </div>
 
-      {/* FOOTER */}
-      <div className="flex justify-end gap-2 px-5 py-3 border-t border-gray-100">
-
+      <div className="flex justify-end gap-3 px-6 py-5 bg-gray-50 border-t border-gray-200 rounded-b-2xl">
         <button
           onClick={() => setOpenProdiForm(false)}
-          className="px-4 py-1.5 text-xs bg-gray-100 rounded-md"
+          className="px-6 py-2 rounded-xl bg-white border border-gray-300 shadow-md text-black font-medium hover:bg-gray-50 transition"
         >
           Batal
         </button>
-
         <button
           onClick={saveProdi}
-          className="px-4 py-1.5 text-xs bg-[#1F7A6E] text-white rounded-md"
+          className="px-6 py-2 rounded-xl bg-[#0B4B48] shadow-md text-white font-medium hover:bg-[#083c3a] transition"
         >
           Simpan
         </button>
-
       </div>
-
     </div>
-
   </div>
 )}
       </div>
