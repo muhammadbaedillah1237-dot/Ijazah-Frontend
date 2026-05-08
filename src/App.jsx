@@ -8,23 +8,27 @@ import {
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 
+// PAGES
 import Login from "./pages/login";
 import Dashboard from "./pages/Dashboard";
 import Verifikasi from "./pages/Verifikasi";
 import Template from "./pages/Template";
-import DataMahasiswa from "./pages/DataMahasiswa"; 
-import Profile from "./pages/Profile"; // ✅ JANGAN LUPA IMPORT INI
+import DataMahasiswa from "./pages/DataMahasiswa";
+import DetailBatch from "./pages/DetailBatch";
+import DetailMahasiswa from "./pages/DetailMahasiswa";
+import DaftarUnit from "./pages/DaftarUnit";
+import DaftarPengguna from "./pages/DaftarPengguna";
+import Profile from "./pages/Profile"; // ✅ TAMBAHKAN IMPORT PROFILE
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-
           {/* PUBLIC */}
           <Route path="/login" element={<Login />} />
 
-          {/* PROTECTED */}
+          {/* PROTECTED - DASHBOARD & UTAMA */}
           <Route
             path="/dashboard"
             element={
@@ -61,22 +65,59 @@ function App() {
             }
           />
 
-          {/* ✅ PROFILE (Pindahkan ke atas Fallback) */}
-          <Route 
-            path="/profile" 
+          {/* DETAIL ROUTES (dengan parameter) */}
+          <Route
+            path="/detail-batch/:id"
+            element={
+              <ProtectedRoute>
+                <DetailBatch />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/detail-mahasiswa"
+            element={
+              <ProtectedRoute>
+                <DetailMahasiswa />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* MANAJEMEN UNIT & PENGGUNA */}
+          <Route
+            path="/daftar-unit"
+            element={
+              <ProtectedRoute>
+                <DaftarUnit />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/daftar-pengguna"
+            element={
+              <ProtectedRoute>
+                <DaftarPengguna />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ✅ PROFILE - TAMBAHKAN RUTE INI */}
+          <Route
+            path="/profile"
             element={
               <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
-            } 
-          />  
+            }
+          />
 
-          {/* DEFAULT */}
+          {/* REDIRECT DEFAULT */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* FALLBACK (Selalu letakkan ini di Paling Bawah) */}
+          {/* FALLBACK - SEMUA RUTE TAK DIKENAL */}
           <Route path="*" element={<Navigate to="/login" replace />} />
-
         </Routes>
       </Router>
     </AuthProvider>
