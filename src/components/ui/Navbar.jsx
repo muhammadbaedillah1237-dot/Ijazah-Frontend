@@ -176,14 +176,16 @@ const Navbar = () => {
       {/* KANAN: NOTIF & PROFILE */}
       <div className="flex items-center gap-4 md:gap-6">
         
-        {/* Bell Icon */}
-        <button 
-          className="relative cursor-pointer text-gray-400 hover:text-[#27AE60] transition-colors"
-          aria-label="Notifikasi"
-        >
-          <FiBell size={22} />
-          <span className="absolute top-0 right-0 bg-red-500 w-2.5 h-2.5 rounded-full border-2 border-white animate-pulse"></span>
-        </button>
+       {/* Bell Icon */}
+{user.role !== "admin" && (
+  <button 
+    className="relative cursor-pointer text-gray-400 hover:text-[#27AE60] transition-colors"
+    aria-label="Notifikasi"
+  >
+    <FiBell size={22} />
+    <span className="absolute top-0 right-0 bg-red-500 w-2.5 h-2.5 rounded-full border-2 border-white animate-pulse"></span>
+  </button>
+)}
 
         {/* Profile Section */}
         <NavLink 

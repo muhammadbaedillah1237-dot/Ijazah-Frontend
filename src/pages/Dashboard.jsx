@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import DashboardLayout from "../components/ui/DashboardLayout";
 import StatCard from "../components/ui/StatCard";
@@ -7,30 +8,128 @@ import VerificationStatusChart from "../components/ui/VerificationStatusChart";
 
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   // 10 Dummy Data Presisi sesuai Figma
-  const dummyData = [
-    { n: "Adi Saputra", b: "Batch 1 - FEB", nim: "231106040902", f: "Fakultas Ekonomi dan Bisnis", p: "Manajemen", t: "2026", s: "Terbit" },
-    { n: "Rani Maharani", b: "Batch 1 - FEB", nim: "231106040903", f: "Fakultas Ekonomi dan Bisnis", p: "Akuntansi", t: "2026", s: "Terbit" },
-    { n: "Budi Pratama", b: "Batch 1 - FEB", nim: "231106040910", f: "Fakultas Ekonomi dan Bisnis", p: "Bisnis Digital", t: "2026", s: "Terbit" },
-    { n: "Kayla Key", b: "Batch 21 - FTS", nim: "231106040912", f: "Fakultas Teknik dan Sains", p: "Teknik Mesin", t: "2026", s: "Proses" },
-    { n: "Rizky Gusti A", b: "Batch 21 - FTS", nim: "231106040839", f: "Fakultas Teknik dan Sains", p: "Teknik Informatika", t: "2026", s: "Proses" },
-    { n: "Risma Puspita", b: "Batch 21 - FTS", nim: "231106040290", f: "Fakultas Teknik dan Sains", p: "Teknik Informatika", t: "2026", s: "Proses" },
-    { n: "Budi Doremi", b: "Batch 3 - FEB", nim: "231106040923", f: "Fakultas Ekonomi dan Bisnis", p: "Bisnis Digital", t: "2026", s: "Reject" },
-    { n: "Siti Aisyah", b: "Batch 3 - FEB", nim: "231106040906", f: "Fakultas Ekonomi dan Bisnis", p: "Bisnis Digital", t: "2026", s: "Reject" },
-    { n: "Eagle Al-Haikal", b: "Batch 3 - FEB", nim: "231106040907", f: "Fakultas Ekonomi dan Bisnis", p: "Manajemen", t: "2026", s: "Reject" },
-    { n: "Zahra Nabil", b: "Batch 3 - FEB", nim: "231106040918", f: "Fakultas Ekonomi dan Bisnis", p: "Manajemen", t: "2026", s: "Reject" },
-  ];
+  const namaList = [
+  "Adi Saputra",
+  "Rani Maharani",
+  "Budi Pratama",
+  "Siti Aisyah",
+  "Dimas Nugraha",
+  "Fajar Ramadhan",
+  "Putri Lestari",
+  "Andi Wijaya",
+  "Rizky Maulana",
+  "Nabila Putri",
+  "Yoga Pratama",
+  "Citra Dewi",
+  "Hendra Gunawan",
+  "Aulia Rahman",
+  "Dewi Kartika",
+  "Kayla Key",
+  "Risma Puspita",
+  "Zahra Nabil",
+  "Eagle Al-Haikal",
+  "Rizky Gusti A",
+];
+
+const fakultasData = [
+  {
+    fakultas: "Fakultas Teknik dan Sains",
+    batch: "FTS",
+    prodi: [
+      "Teknik Informatika",
+      "Teknik Mesin",
+      "Teknik Sipil",
+    ],
+  },
+  {
+    fakultas: "Fakultas Ekonomi dan Bisnis",
+    batch: "FEB",
+    prodi: [
+      "Manajemen",
+      "Akuntansi",
+      "Bisnis Digital",
+    ],
+  },
+  {
+    fakultas: "Fakultas Hukum",
+    batch: "FH",
+    prodi: ["Ilmu Hukum"],
+  },
+  {
+    fakultas: "Fakultas Ilmu Kesehatan",
+    batch: "FIKES",
+    prodi: [
+      "Keperawatan",
+      "Kesehatan Masyarakat",
+    ],
+  },
+];
+
+const statusList = [
+  "Terbit",
+  "Proses",
+  "Reject",
+  "Revoke",
+];
+
+const getRandom = (arr) =>
+  arr[Math.floor(Math.random() * arr.length)];
+
+const dummyData = Array.from({ length: 10 }, (_, i) => {
+  const fak = getRandom(fakultasData);
+
+  return {
+    n: getRandom(namaList),
+
+    b: `Batch ${Math.floor(Math.random() * 30) + 1} - ${fak.batch}`,
+
+    nim:
+      "23110604" +
+      Math.floor(Math.random() * 9999),
+
+    f: fak.fakultas,
+
+    p: getRandom(fak.prodi),
+
+    t: String(
+      2024 + Math.floor(Math.random() * 3)
+    ),
+
+    s: getRandom(statusList),
+  };
+});
+  const filteredData = dummyData.filter((item) => {
+  const keyword = searchQuery.toLowerCase();
+
+  return (
+    item.n.toLowerCase().includes(keyword) ||
+    item.nim.toLowerCase().includes(keyword) ||
+    item.p.toLowerCase().includes(keyword)
+  );
+});
 
   // Fungsi Badge Warna
   const getBadgeColor = (status) => {
-    switch (status) {
-      case "Terbit": return "bg-[#27AE60] text-white";
-      case "Proses": return "bg-[#3B82F6] text-white";
-      case "Reject": return "bg-[#EF4444] text-white";
-      default: return "bg-gray-400 text-white";
-    }
-  };
+  switch (status) {
+    case "Terbit":
+      return "bg-[#27AE60] text-white";
+
+    case "Proses":
+      return "bg-[#3B82F6] text-white";
+
+    case "Reject":
+      return "bg-[#EF4444] text-white";
+
+    case "Revoke":
+      return "bg-[#F59E0B] text-white";
+
+    default:
+      return "bg-gray-400 text-white";
+  }
+};
 
   // Icon SVG Kustom untuk StatCards
   const Icons = {
@@ -50,7 +149,17 @@ const Dashboard = () => {
 
       {/* STAT CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Jumlah Ijazah Terbit" value="5.625" sub="20 Ijazah Terbit Minggu ini" subColor="text-[#27AE60]" icon={Icons.Badge} />
+
+        {/* STAT CARDS IJAZAH TERBIT */}
+        <StatCard
+         onClick={() => navigate("/ijazah-terbit")}
+          title="Jumlah Ijazah Terbit"
+          value="5.625"
+          sub="20 Ijazah Terbit Minggu ini"
+          subColor="text-[#27AE60]"
+          icon={Icons.Badge}
+            />
+            
         <StatCard title="Jumlah Ijazah di Proses" value="451" sub="12 di Proses Minggu ini" subColor="text-[#3B82F6]" icon={Icons.Check} />
         <StatCard title="Jumlah Ijazah di Reject" value="42" sub="2 Data di Reject Minggu ini" subColor="text-[#EF4444]" icon={Icons.Close} />
         <StatCard title="Jumlah Ijazah di Revoke" value="17" sub="Tidak ada perubahan Minggu ini" subColor="text-[#F59E0B]" icon={Icons.List} />
@@ -101,7 +210,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {dummyData.map((row, i) => (
+              {filteredData.map((row, i) => (
                 <tr key={i} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
                   <td className="py-4 px-6 font-bold">{i + 1}.</td>
                   <td className="py-4 px-6">

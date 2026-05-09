@@ -12,6 +12,8 @@ import DetailMahasiswa from "./pages/DetailMahasiswa";
 import DaftarUnit from "./pages/DaftarUnit";
 import DaftarPengguna from "./pages/DaftarPengguna";
 import Profile from "./pages/Profile";
+import IjazahTerbit from "./pages/IjazahTerbit";
+import BatchTerbit from "./pages/BatchTerbit";
 
 // DASHBOARD PAGES (BARU)
 import AdminDashboard from "./pages/Dashboard";
@@ -131,6 +133,17 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          {/* IJAZAH TERBIT */}
+          <Route
+            path="/ijazah-terbit"
+            element={
+          <ProtectedRoute>
+           <IjazahTerbit />
+          </ProtectedRoute>
+      }
+      />
+     {/* BATCH TERBIT */}
+      <Route path="/batch-terbit/:id" element={<BatchTerbit />} />
 
           {/* DETAIL BATCH */}
           <Route 
@@ -151,6 +164,7 @@ function App() {
               </ProtectedRoute>
             } 
           />
+        
 
           {/* DAFTAR UNIT */}
           <Route 
