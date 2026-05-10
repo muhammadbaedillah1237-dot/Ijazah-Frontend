@@ -58,7 +58,7 @@ const Profile = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 gap-x-6 mb-12">
             <div>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nama Lengkap</p>
-              <p className="text-lg font-bold text-gray-800">Dr.Richoad,M.Kom</p>
+              <p className="text-lg font-bold text-gray-800">Mamat sudrajat</p>
             </div>
             <div>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">NIDN</p>
@@ -66,11 +66,11 @@ const Profile = () => {
             </div>
             <div>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</p>
-              <p className="text-lg font-bold text-gray-800">richoad138@gmail.com</p>
+              <p className="text-lg font-bold text-gray-800">adminsistem@gmail.com</p>
             </div>
             <div>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Role</p>
-              <p className="text-lg font-bold text-gray-800">Wakil Dekan</p>
+              <p className="text-lg font-bold text-gray-800">Admin Sistem</p>
             </div>
             <div className="col-span-2">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tanggal Bergabung</p>

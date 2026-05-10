@@ -26,7 +26,7 @@ const FileUpload = React.memo(({ label, file, onChange }) => (
         <input type="file" className="hidden" onChange={onChange} />
       </label>
 
-      <span className="text-xs text-gray-400 truncate max-w-[140px]">
+      <span className="text-xs text-gray-400 truncate max-w-35">
         {file ? file.name : "No file"}
       </span>
     </div>
@@ -482,7 +482,7 @@ const handleProdiFile = (e) => {
         {/* MODAL */}
 {openModal && (
   <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-    <div className="bg-white w-[900px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl">
+    <div className="bg-white w-225 max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl">
       <div className="px-6 py-5 border-b border-gray-200">
         <h2 className="text-xl font-bold text-gray-800">{editId ? "Edit Unit" : "Tambah Unit"}</h2>
         <p className="text-sm text-gray-500 mt-1">Lengkapi data unit di bawah ini</p>
@@ -645,7 +645,7 @@ const handleProdiFile = (e) => {
 )}
 {openProdiForm && (
   <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-    <div className="bg-white w-[900px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl">
+    <div className="bg-white w-225 max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl">
       <div className="px-6 py-5 border-b border-gray-200">
         <h2 className="text-xl font-bold text-gray-800">Tambah Program Studi</h2>
         <p className="text-sm text-gray-500 mt-1">Lengkapi data program studi di bawah ini</p>
@@ -765,9 +765,9 @@ const handleProdiFile = (e) => {
       </div>
       {/* 🔥 POPUP SUCCESS */}
 {showSuccess && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999]">
+  <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-9999">
 
-    <div className="bg-white w-[360px] rounded-2xl p-7 text-center shadow-xl">
+    <div className="bg-white w-90 rounded-2xl p-7 text-center shadow-xl">
 
       {/* ICON */}
       <div className="w-16 h-16 mx-auto bg-green-500 flex items-center justify-center rounded-full mb-4 shadow-md">
@@ -802,9 +802,9 @@ const handleProdiFile = (e) => {
   </div>
 )}
 {showDeleteModal && (
-  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[999]">
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-999">
 
-    <div className="bg-white w-[360px] rounded-2xl p-6 text-center shadow-xl">
+    <div className="bg-white w-90 rounded-2xl p-6 text-center shadow-xl">
 
    <div className="w-16 h-16 mx-auto bg-red-500 flex items-center justify-center rounded-full mb-4">
   <HiOutlineExclamationTriangle size={32} className="text-white" />

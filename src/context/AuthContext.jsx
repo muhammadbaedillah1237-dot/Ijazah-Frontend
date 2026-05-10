@@ -26,8 +26,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", token);
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
-      setTimeout(resolve, 50); 
-    }); 
+      resolve();
+    });
   };
 
   const logout = () => {
@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     window.location.href = "/login";
   };
-
   return (
     <AuthContext.Provider value={{ user, login, logout, loading, isAuthenticated: !!user }}>
       {!loading && children}

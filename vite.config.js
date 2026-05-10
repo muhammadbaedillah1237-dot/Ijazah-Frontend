@@ -18,12 +18,12 @@ export default defineConfig({
     port: 5173,
     host: true,
     proxy: {
-      "/api": {
-        target: "https://api-gateway-production-ec56.up.railway.app", // maaf ya kii point is information aja ki 😇
-        changeOrigin: true,
-        secure: true,
-      },
-    },
+  "/api": {
+    target: "https://api-gateway-production-ec56.up.railway.app",
+    changeOrigin: true,
+    secure: true,
+  },
+},
   },
   build: {
     outDir: "dist",
