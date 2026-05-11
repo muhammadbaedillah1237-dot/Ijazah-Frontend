@@ -12,6 +12,7 @@ import DetailMahasiswa from "./pages/DetailMahasiswa";
 import DaftarUnit from "./pages/DaftarUnit";
 import DaftarPengguna from "./pages/DaftarPengguna";
 import Profile from "./pages/Profile";
+import BatchTerbit from "./pages/BatchTerbit";
 
 // DASHBOARD PAGES (BARU)
 import AdminDashboard from "./pages/Dashboard";
