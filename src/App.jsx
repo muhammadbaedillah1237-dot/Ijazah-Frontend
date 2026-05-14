@@ -12,6 +12,9 @@ import DaftarUnit from "./pages/DaftarUnit";
 import DaftarPengguna from "./pages/DaftarPengguna";
 import Profile from "./pages/Profile";
 import IjazahTerbit from "./pages/IjazahTerbit";
+import IjazahProses from "./pages/IjazahProses";
+import IjazahReject from "./pages/IjazahReject";
+import IjazahRevoke from "./pages/IjazahRevoke";
 import BatchTerbit from "./pages/BatchTerbit";
 
 // DASHBOARD PAGES
@@ -107,13 +110,16 @@ function App() {
           <Route path="/template" element={<ProtectedRoute allowedRoles={ALL_ROLES}><Template /></ProtectedRoute>} />
           <Route path="/data-mahasiswa" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DataMahasiswa /></ProtectedRoute>} />
           <Route path="/ijazah-terbit" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahTerbit /></ProtectedRoute>} />
+          <Route path="/ijazah-proses" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahProses /></ProtectedRoute>} />
+          <Route path="/ijazah-reject" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahReject /></ProtectedRoute>} />
+          <Route path="/ijazah-revoke" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahRevoke /></ProtectedRoute>} />
           <Route path="/batch-terbit/:id" element={<ProtectedRoute allowedRoles={ALL_ROLES}><BatchTerbit /></ProtectedRoute>} />
           <Route path="/detail-batch/:id" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DetailBatch /></ProtectedRoute>} />
           <Route path="/detail-mahasiswa" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DetailMahasiswa /></ProtectedRoute>} />
           <Route path="/daftar-unit" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DaftarUnit /></ProtectedRoute>} />
           <Route path="/daftar-pengguna" element={<ProtectedRoute allowedRoles={["admin"]}><DaftarPengguna /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute allowedRoles={ALL_ROLES}><Profile /></ProtectedRoute>} />
-
+       
           {/* REDIRECTS */}
           <Route path="/dashboard" element={<RoleBasedRedirect />} />
           <Route path="/" element={<Navigate to="/login" replace />} />

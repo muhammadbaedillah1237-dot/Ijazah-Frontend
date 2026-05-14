@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import DashboardLayout from "../components/ui/DashboardLayout";
 import { FiSearch, FiChevronDown } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
@@ -6,75 +6,71 @@ import { useNavigate } from "react-router-dom";
 const IjazahTerbit = () => {
   const navigate = useNavigate();
 
+  // ==========================================================================
+  // 1. STATE UI (TETAP DIPERTAHANKAN)
+  // ==========================================================================
   const [search, setSearch] = useState("");
   const [fakultas, setFakultas] = useState("");
   const [tahun, setTahun] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
+  // ==========================================================================
+  // 🟢 TODO [API]: 2. BUKA KOMENTAR STATE INI SAAT API BACKEND READY
+  // State ini akan jadi wadah untuk menampung data dari database.
+  // ==========================================================================
+  // const [dataBatch, setDataBatch] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [totalPagesFromAPI, setTotalPagesFromAPI] = useState(0);
+
+  // ==========================================================================
+  // 🟢 TODO [API]: 3. HAPUS SEMUA DATA DUMMY INI
+  // (Mulai dari sini sampai pembuatan const dummyData)
+  // ==========================================================================
   const fakultasList = [
-    {
-      nama: "Fakultas Teknik dan Sains",
-      kode: "FTS",
-      prodi: ["Teknik Informatika", "Teknik Mesin"],
-    },
-    {
-      nama: "Fakultas Ekonomi dan Bisnis",
-      kode: "FEB",
-      prodi: ["Manajemen", "Akuntansi"],
-    },
+    { nama: "Fakultas Teknik dan Sains", kode: "FTS", prodi: ["Teknik Informatika", "Teknik Mesin", "Teknik Sipil", "Sistem informasi", "Ilmu Lingkungan", "Rekayasa Pertanian dan Biosistem", "Teknik Elektro "] },
+    { nama: "Fakultas Hukum", kode: "FH", prodi: ["Hukum", "Ilmu Hukum"] },
+    { nama: "Fakultas Ekonomi dan Bisnis", kode: "FEB", prodi: ["Manajemen", "Akuntansi", "Keuangan dan Perbankan", "Perbankan dan Keuangan Digital"] },
+    { nama: "Fakultas Agama Islam", kode: "FAI", prodi: ["Pendidikan Agama Islam", "Ekonomi Syariah", "Hukum Keluarga Islam / Ahwal Al Syakhsiyyah", 
+      "Komunikasi dan Penyiaran Islam", "Pendidikan Guru Madrasah Ibtidaiyah", "Bimbingan dan Konseling Pendidikan Islam", "Manajemen Haji dan Umrah", "lmu Al-Qur'an dan Tafsir"] },
+    { nama: "Fakultas Ilmu Kesehatan", kode: "FIKES", prodi: ["Kesehatan Masyrakat", "Ilmu gizi"] },
+    { nama: "Fakultas Keguruan dan Ilmu Pendidikan", kode: "FKIP", prodi: ["Pendidikan Bahasa Inggris", "Teknologi Pendidikan", "Pendidikan Masyarakat (PLS)", "Pendidikan Matematika"] },
   ];
-
   const years = ["2024", "2025", "2026"];
+  const namaList = ["Adi Saputra", "Rani Maharani", "Budi Pratama", "Siti Aisyah", "Yoga Pratama", "Nabila Putri"];
+  
+  const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-  const namaList = [
-    "Adi Saputra",
-    "Rani Maharani",
-    "Budi Pratama",
-    "Siti Aisyah",
-    "Yoga Pratama",
-    "Nabila Putri",
-  ];
-
-  const getRandom = (arr) =>
-    arr[Math.floor(Math.random() * arr.length)];
-
-  const data = useMemo(() => {
+  // Sengaja dibuat 285 iterasi per fakultas (total 570 data) agar menghasilkan persis 57 halaman (570 / 10)
+  const dummyData = useMemo(() => {
     let result = [];
-
     fakultasList.forEach((fak) => {
-      for (let i = 1; i <= 10; i++) {
-
-        const mahasiswa = Array.from(
-          { length: 10 },
-          (_, index) => ({
-            nama: getRandom(namaList),
-
-            nim:
-              "23" +
-              Math.floor(Math.random() * 99999999),
-
-            prodi: getRandom(fak.prodi),
-
-            status: "Terbit",
-          })
-        );
-
+      for (let i = 1; i <= 285; i++) { 
+        const mahasiswa = Array.from({ length: 10 }, (_, index) => ({
+          nama: getRandom(namaList),
+          nim: "23" + Math.floor(Math.random() * 99999999),
+          prodi: getRandom(fak.prodi),
+          status: "Terbit",
+        }));
         result.push({
           batch: `Batch ${i} - ${fak.kode}`,
           fakultas: fak.nama,
           tahun: getRandom(years),
-          periode: "Semester Genap",
+          periode: "Semester Ganjil",
           total: mahasiswa.length,
           mahasiswa,
         });
       }
     });
-
     return result;
   }, []);
 
-  const filtered = data.filter((item) => {
+  // ==========================================================================
+  // 🟢 TODO [API]: 4. HAPUS LOGIKA FILTER & SLICE LOKAL INI
+  // Nanti filter (search, dsb) dan pemotongan data akan diurus oleh Backend.
+  // ==========================================================================
+  const filtered = dummyData.filter((item) => {
     const keyword = search.toLowerCase();
-
     return (
       item.batch.toLowerCase().includes(keyword) &&
       (fakultas ? item.fakultas === fakultas : true) &&
@@ -82,123 +78,231 @@ const IjazahTerbit = () => {
     );
   });
 
+  const totalPages = Math.ceil(filtered.length / itemsPerPage); 
+  const paginatedData = filtered.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // ==========================================================================
+  // 🟢 TODO [API]: 5. BUKA KOMENTAR USE-EFFECT INI UNTUK HIT API
+  // Letakkan URL API asli dari anak Back-End di sini.
+  // ==========================================================================
+  /*
+  useEffect(() => {
+    const fetchAPI = async () => {
+      setIsLoading(true);
+      try {
+        const url = new URL("https://API_DARI_BACKEND/api/batch-terbit");
+        url.searchParams.append("page", currentPage);
+        url.searchParams.append("limit", itemsPerPage);
+        if (search) url.searchParams.append("search", search);
+        if (fakultas) url.searchParams.append("fakultas", fakultas);
+        if (tahun) url.searchParams.append("tahun", tahun);
+
+        const response = await fetch(url, {
+          headers: { "Authorization": `Bearer ${localStorage.getItem("authToken")}` }
+        });
+        const result = await response.json();
+        
+        if (result.status === "success") {
+          setDataBatch(result.data); // Data tabel
+          setTotalPagesFromAPI(result.meta.total_pages); // Total halaman dari BE
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAPI();
+  }, [currentPage, search, fakultas, tahun]);
+  */
+
+  // ==========================================================================
+  // 6. LOGIKA UI (TETAP DIPERTAHANKAN)
+  // ==========================================================================
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, fakultas, tahun]);
+
+  const handlePageChange = (pageNumber) => {
+    // 🟢 TODO [API]: Ganti 'totalPages' menjadi 'totalPagesFromAPI'
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  const renderPaginationButtons = () => {
+    let pages = [];
+    // 🟢 TODO [API]: Ganti 'totalPages' di blok ini jadi 'totalPagesFromAPI'
+    if (totalPages <= 4) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (currentPage <= 2) {
+        pages = [1, 2, '...', totalPages];
+      } else if (currentPage >= totalPages - 1) {
+        pages = [1, '...', totalPages - 1, totalPages];
+      } else {
+        pages = [1, '...', currentPage, '...', totalPages];
+      }
+    }
+
+    return pages.map((page, index) => {
+      const isActive = currentPage === page;
+      const isEllipsis = page === '...';
+
+      return (
+        <button
+          key={index}
+          onClick={() => !isEllipsis && handlePageChange(page)}
+          disabled={isEllipsis}
+          // UI Styling persis Figma (Rounded 12px, warna spesifik)
+          className={`w-[46px] h-[46px] flex items-center justify-center rounded-[12px] font-bold text-[18px] transition-all ${
+            isActive
+              ? "bg-[#115E59] text-white shadow-sm" 
+              : "bg-[#CBD5E1] text-white hover:bg-[#b0bcc9]" 
+          } ${isEllipsis ? "cursor-default hover:bg-[#CBD5E1]" : ""}`}
+        >
+          {page}
+        </button>
+      );
+    });
+  };
+
   return (
     <DashboardLayout>
-
-      <div className="mb-7">
-        <h1 className="text-[28px] font-bold text-[#111827]">
-          Data Ijazah Terbit
-        </h1>
-
-        <p className="text-[#9CA3AF] text-sm mt-1">
-          Seluruh mahasiswa dengan status ijazah terbit
-        </p>
-      </div>
-
-      {/* FILTER */}
-      <div className="bg-white border border-[#E5E7EB] p-4 rounded-2xl flex flex-wrap items-center gap-3 mb-5 shadow-sm">
-
-        <div className="flex items-center bg-[#E5E5E5] rounded-lg px-3 h-10 w-72">
-          <FiSearch className="text-gray-500 text-sm mr-2" />
-
-          <input
-            type="text"
-            placeholder="Cari Batch"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="bg-transparent outline-none text-sm w-full"
-          />
+      <div className="w-full">
+        {/* HEADER */}
+        <div className="mb-6">
+          <h1 className="text-[26px] font-bold text-gray-900">
+            Jumlah Ijazah Terbit
+          </h1>
+          <p className="text-[#9CA3AF] text-sm mt-1">
+            Update terakhir: 17 Januari 2026, 09:10 WIB
+          </p>
         </div>
 
-        <div className="relative">
-          <select
-            value={fakultas}
-            onChange={(e) => setFakultas(e.target.value)}
-            className="appearance-none bg-[#E5E5E5] text-sm px-4 h-10 rounded-lg pr-10 min-w-[220px]"
-          >
-            <option value="">Semua Fakultas</option>
+        {/* FILTER BOX */}
+        <div className="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-wrap items-center gap-4 border border-gray-100">
+          <div className="flex items-center bg-[#E5E5E5] rounded-lg px-4 h-11 flex-1 min-w-[250px] max-w-md">
+            <FiSearch className="text-gray-500 text-lg mr-3" />
+            <input
+              type="text"
+              placeholder="Cari: Nama, NIM, Prodi"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="bg-transparent outline-none text-sm w-full font-medium text-gray-700 placeholder-gray-500"
+            />
+          </div>
 
-            {fakultasList.map((f, i) => (
-              <option key={i} value={f.nama}>
-                {f.nama}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={fakultas}
+              onChange={(e) => setFakultas(e.target.value)}
+              className="appearance-none bg-[#E5E5E5] text-sm font-bold text-gray-700 px-4 h-11 rounded-lg pr-10 min-w-[220px] outline-none cursor-pointer"
+            >
+              <option value="">Semua Fakultas</option>
+              {fakultasList.map((f, i) => (
+                <option key={i} value={f.nama}>{f.nama}</option>
+              ))}
+            </select>
+            <FiChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 text-lg pointer-events-none" />
+          </div>
 
-          <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
+          <div className="relative">
+            <select
+              value={tahun}
+              onChange={(e) => setTahun(e.target.value)}
+              className="appearance-none bg-[#E5E5E5] text-sm font-bold text-gray-700 px-4 h-11 rounded-lg pr-10 min-w-[150px] outline-none cursor-pointer"
+            >
+              <option value="">Tahun Lulus</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+            </select>
+            <FiChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 text-lg pointer-events-none" />
+          </div>
         </div>
 
-      </div>
-
-      {/* TABLE */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-
-        <table className="w-full text-sm">
-
-          <thead className="bg-[#F7F7F7] border-b border-gray-200">
-            <tr>
-              <th className="px-4 py-3 text-center">No</th>
-              <th className="px-4 py-3 text-left">List Batch</th>
-              <th className="px-4 py-3 text-center">Fakultas</th>
-              <th className="px-4 py-3 text-center">Tahun</th>
-              <th className="px-4 py-3 text-center">Periode</th>
-              <th className="px-4 py-3 text-center">Total</th>
-              <th className="px-4 py-3 text-center">Detail</th>
-            </tr>
-          </thead>
-
-          <tbody>
-         {filtered.slice(0, 10).map((item, i) => (
-              <tr
-                key={i}
-                className="border-t border-gray-200 hover:bg-gray-50"
-              >
-                <td className="px-4 py-3 text-center">
-                  {i + 1}
-                </td>
-
-                <td className="px-4 py-3 font-medium">
-                  {item.batch}
-                </td>
-
-                <td className="px-4 py-3 text-center">
-                  {item.fakultas}
-                </td>
-
-                <td className="px-4 py-3 text-center">
-                  {item.tahun}
-                </td>
-
-                <td className="px-4 py-3 text-center">
-                  {item.periode}
-                </td>
-
-                <td className="px-4 py-3 text-center">
-                  {item.total}
-                </td>
-
-                <td className="px-4 py-3 text-center">
-
-                  <div
-                onClick={() =>
-                navigate(`/batch-terbit/${i}`, {
-                state: item,
-                    })
-                }
-                    className="w-7 h-7 border border-gray-300 rounded-md flex items-center justify-center mx-auto cursor-pointer hover:bg-gray-100 transition"
-                  >
-                    <div className="w-3 h-3 border-t-2 border-b-2 border-gray-400"></div>
-                  </div>
-
-                </td>
+        {/* TABLE SECTION */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
+          <table className="w-full text-sm text-left whitespace-nowrap">
+            <thead className="bg-[#F3F4F6] text-gray-500 font-bold border-b border-gray-200">
+              <tr>
+                <th className="py-4 px-6 text-center w-16">No.</th>
+                <th className="py-4 px-6">List Batch</th>
+                <th className="py-4 px-6 text-center">Fakultas</th>
+                <th className="py-4 px-6 text-center">Tahun Lulus</th>
+                <th className="py-4 px-6 text-center">Periode</th>
+                <th className="py-4 px-6 text-center">Total Data</th>
+                <th className="py-4 px-6 text-center w-24">Detail</th>
               </tr>
-            ))}
-          </tbody>
+            </thead>
 
-        </table>
+            <tbody>
+              {/* 🟢 TODO [API]: Nanti ganti 'paginatedData' menjadi 'dataBatch' */}
+              {paginatedData.map((item, i) => {
+                const actualIndex = (currentPage - 1) * itemsPerPage + i + 1;
+                return (
+                  <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                    <td className="py-4 px-6 text-center font-bold text-gray-800">{actualIndex}.</td>
+                    <td className="py-4 px-6 font-bold text-gray-900">{item.batch}</td>
+                    <td className="py-4 px-6 text-center font-bold text-gray-900">{item.fakultas}</td>
+                    <td className="py-4 px-6 text-center font-bold text-gray-900">{item.tahun}</td>
+                    <td className="py-4 px-6 text-center font-bold text-gray-900">{item.periode}</td>
+                    <td className="py-4 px-6 text-center font-bold text-gray-900">{item.total}</td>
+                    <td className="py-4 px-6 text-center">
+                      <div
+                        onClick={() => navigate(`/batch-terbit/${actualIndex}`, { state: item })}
+                        className="w-7 h-7 border border-gray-300 rounded-md flex items-center justify-center mx-auto cursor-pointer hover:bg-gray-200 transition"
+                      >
+                        <div className="w-3 h-3 border-t-2 border-b-2 border-gray-500"></div>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
 
+          {/* 🟢 TODO [API]: Nanti ganti 'paginatedData' menjadi 'dataBatch' */}
+          {paginatedData.length === 0 && (
+            <div className="py-8 text-center text-gray-500 font-medium">
+              Data tidak ditemukan.
+            </div>
+          )}
+
+          {/* PAGINATION SESUAI FIGMA */}
+          {/* 🟢 TODO [API]: Nanti ganti 'totalPages' menjadi 'totalPagesFromAPI' */}
+          {totalPages > 0 && (
+            <div className="flex justify-end items-center px-6 py-6 gap-3 border-t border-gray-100">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`flex items-center justify-center px-2 text-[28px] font-bold transition-colors ${
+                  currentPage === 1 ? "text-[#CBD5E1] cursor-not-allowed" : "text-[#94a3b8] hover:text-[#64748b]"
+                }`}
+              >
+                &lt;
+              </button>
+              
+              {renderPaginationButtons()}
+
+              <button
+                // 🟢 TODO [API]: Ganti 'totalPages' jadi 'totalPagesFromAPI'
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`flex items-center justify-center px-2 text-[28px] font-bold transition-colors ${
+                  currentPage === totalPages ? "text-[#CBD5E1] cursor-not-allowed" : "text-[#115E59] hover:text-[#0B4B48]"
+                }`}
+              >
+                &gt;
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-
     </DashboardLayout>
   );
 };

@@ -6,23 +6,22 @@ import logo from "../../assets/img/Logo.jpg";
 
 const unitMap = {
   1: { name: "FAI",     label: "Fakultas Agama Islam" },
-  2: { name: "FKIP",   label: "Fak. Keguruan & Ilmu Pendidikan" },
+  2: { name: "FKIP",   label: "Fakultas Keguruan & Ilmu Pendidikan" },
   3: { name: "FH",     label: "Fakultas Hukum" },
   4: { name: "FEB",    label: "Fakultas Ekonomi & Bisnis" },
-  5: { name: "FIKES",  label: "Fak. Ilmu Kesehatan" },
+  5: { name: "FIKES",  label: "Fakultas Ilmu Kesehatan" },
   6: { name: "FTS",    label: "Fakultas Teknik & Sains" },
-  7: { name: "FAPERTA",label: "Fakultas Pertanian" },
 };
 
 const roleLabels = {
-  admin:         { name: "Admin",       subtitle: "Sistem" },
-  operator_data: { name: "Operator",    subtitle: "Data" },
-  rektor:        { name: "Rektor",      subtitle: "Universitas" },
-  wakil_rektor:  { name: "Wakil Rektor",subtitle: "Universitas" },
-  dekan:         { name: "Dekan",       subtitle: null },
-  wakil_dekan:   { name: "Wakil Dekan", subtitle: null },
-  tu_fakultas:   { name: "Tata Usaha",  subtitle: null },
-  tu_rektorat:   { name: "Tata Usaha",  subtitle: "Rektorat" },
+  admin:         { name: "Admin",        subtitle: "Sistem" },
+  operator_data: { name: "Operator",     subtitle: "Data" },
+  rektor:        { name: "Rektor",       subtitle: "Universitas" },
+  wakil_rektor:  { name: "Wakil Rektor", subtitle: "Universitas" },
+  dekan:         { name: "Dekan",        subtitle: null },
+  wakil_dekan:   { name: "Wakil Dekan",  subtitle: null },
+  tu_fakultas:   { name: "Tata Usaha",   subtitle: null },
+  tu_rektorat:   { name: "Tata Usaha",   subtitle: "Rektorat" },
 };
 
 const ROLES_WITHOUT_NOTIF = ["admin"];
@@ -46,52 +45,55 @@ const Navbar = () => {
   const showNotifIcon = !ROLES_WITHOUT_NOTIF.includes(userRole);
 
   const menuConfig = {
-  admin: [
-    { name: "Dashboard",       path: "/admin-dashboard" },
-    { name: "Template",        path: "/template" },
-    { name: "Data Mahasiswa",  path: "/data-mahasiswa" },
-    { name: "Daftar Unit",     path: "/daftar-unit" },
-    { name: "Daftar Pengguna", path: "/daftar-pengguna" },
-  ],
-  operator_data: [
-    { name: "Dashboard",      path: "/operator-dashboard" },
-    { name: "Manajemen Data", path: "/manajemen-data" },
-    { name: "Pelaporan",      path: "/pelaporan" },
-    { name: "Dokumen Valid",  path: "/dokumen-valid" },
-  ],
-  rektor: [
-    { name: "Dashboard",      path: "/rektor-dashboard" },
-    { name: "Manajemen Data", path: "/manajemen-data" },
-    { name: "Pelaporan",      path: "/pelaporan" },
-    { name: "Dokumen Valid",  path: "/dokumen-valid" },
-  ],
-  wakil_rektor: [
-    { name: "Dashboard",      path: "/dashboard" },
-    { name: "Manajemen Data", path: "/manajemen-data" },
-    { name: "Pelaporan",      path: "/pelaporan" },
-  ],
-  dekan: [
-    { name: "Dashboard",      path: "/dashboard" },
-    { name: "Manajemen Data", path: "/manajemen-data" },
-    { name: "Pelaporan",      path: "/pelaporan" },
-  ],
-  wakil_dekan: [
-    { name: "Dashboard",      path: "/dashboard" },
-    { name: "Manajemen Data", path: "/manajemen-data" },
-    { name: "Pelaporan",      path: "/pelaporan" },
-  ],
-  tu_fakultas: [
-    { name: "Dashboard",      path: "/dashboard" },
-    { name: "Manajemen Data", path: "/manajemen-data" },
-    { name: "Pelaporan",      path: "/pelaporan" },
-  ],
-  tu_rektorat: [
-    { name: "Dashboard",      path: "/dashboard" },
-    { name: "Manajemen Data", path: "/manajemen-data" },
-    { name: "Pelaporan",      path: "/pelaporan" },
-  ],
-};
-  const menus = menuConfig[userRole] || [{ name: "Dashboard", path: "/dashboard" }];
+    admin: [
+      { name: "Dashboard",       path: "/admin-dashboard" },
+      { name: "Template",        path: "/template" },
+      { name: "Data Mahasiswa",  path: "/data-mahasiswa" },
+      { name: "Daftar Unit",     path: "/daftar-unit" },
+      { name: "Daftar Pengguna", path: "/daftar-pengguna" },
+    ],
+    operator_data: [
+      { name: "Dashboard",      path: "/operator-dashboard" },
+      { name: "Manajemen Data", path: "/manajemen-data" },
+      { name: "Pelaporan",      path: "/pelaporan" },
+      { name: "Dokumen Valid",  path: "/dokumen-valid" },
+    ],
+    rektor: [
+      { name: "Dashboard",      path: "/rektor-dashboard" },
+      { name: "Manajemen Data", path: "/manajemen-data" },
+      { name: "Pelaporan",      path: "/pelaporan" },
+      { name: "Dokumen Valid",  path: "/dokumen-valid" },
+    ],
+    wakil_rektor: [
+      { name: "Dashboard",      path: "/admin-dashboard" },
+      { name: "Manajemen Data", path: "/manajemen-data" },
+      { name: "Pelaporan",      path: "/pelaporan" },
+    ],
+    dekan: [
+      { name: "Dashboard",      path: "/admin-dashboard" },
+      { name: "Manajemen Data", path: "/manajemen-data" },
+      { name: "Pelaporan",      path: "/pelaporan" },
+    ],
+    wakil_dekan: [
+      { name: "Dashboard",      path: "/admin-dashboard" },
+      { name: "Manajemen Data", path: "/manajemen-data" },
+      { name: "Pelaporan",      path: "/pelaporan" },
+    ],
+    tu_fakultas: [
+      { name: "Dashboard",      path: "/admin-dashboard" },
+      { name: "Manajemen Data", path: "/manajemen-data" },
+      { name: "Pelaporan",      path: "/pelaporan" },
+    ],
+    tu_rektorat: [
+      { name: "Dashboard",      path: "/admin-dashboard" },
+      { name: "Manajemen Data", path: "/manajemen-data" },
+      { name: "Pelaporan",      path: "/pelaporan" },
+    ],
+  };
+
+  const rawMenus = menuConfig[userRole] || [{ name: "Dashboard", path: "/admin-dashboard" }];
+
+  const menus = rawMenus;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -151,7 +153,7 @@ const Navbar = () => {
         {/* Right Side */}
         <div className="flex items-center gap-3 md:gap-5">
 
-          {/* NOTIFIKASI - TODO: connect ke API GET /api/notifikasi */}
+          {/* NOTIFIKASI */}
           {showNotifIcon && (
             <div className="relative" ref={notifRef}>
               <button

@@ -179,7 +179,7 @@ const searchResult = useMemo(() => {
           <select
             value={fakultas}
             onChange={(e) => setFakultas(e.target.value)}
-            className="appearance-none bg-[#E5E5E5] text-sm px-4 h-10 rounded-lg pr-10 min-w-[220px]"
+            className="appearance-none bg-[#E5E5E5] text-sm px-4 h-10 rounded-lg pr-10 min-w-55"
           >
             <option value="">Semua Fakultas</option>
             {fakultasList.map((f, i) => (
@@ -196,7 +196,7 @@ const searchResult = useMemo(() => {
           <select
             value={tahun}
             onChange={(e) => setTahun(e.target.value)}
-            className="appearance-none bg-[#E5E5E5] text-sm px-4 h-10 rounded-lg pr-10 min-w-[160px]"
+            className="appearance-none bg-[#E5E5E5] text-sm px-4 h-10 rounded-lg pr-10 min-w-40"
           >
             <option value="">Tahun Lulus</option>
             {years.map((y, i) => (
