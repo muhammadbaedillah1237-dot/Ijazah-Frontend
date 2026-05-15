@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import DashboardLayout from "../components/ui/DashboardLayout";
+import DashboardLayout from "../../components/ui/DashboardLayout";
 import { FiSearch, FiChevronDown } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const IjazahTerbit = () => {
   // ==========================================================================
   const fakultasList = [
     { nama: "Fakultas Teknik dan Sains", kode: "FTS", prodi: ["Teknik Informatika", "Teknik Mesin", "Teknik Sipil", "Sistem informasi", "Ilmu Lingkungan", "Rekayasa Pertanian dan Biosistem", "Teknik Elektro "] },
-    { nama: "Fakultas Hukum", kode: "FH", prodi: ["Hukum", "Ilmu Hukum"] },
+    { nama: "Fakultas Hukum", kode: "FH", prodi: ["Hukum Bisnis", "Ilmu Hukum"] },
     { nama: "Fakultas Ekonomi dan Bisnis", kode: "FEB", prodi: ["Manajemen", "Akuntansi", "Keuangan dan Perbankan", "Perbankan dan Keuangan Digital"] },
     { nama: "Fakultas Agama Islam", kode: "FAI", prodi: ["Pendidikan Agama Islam", "Ekonomi Syariah", "Hukum Keluarga Islam / Ahwal Al Syakhsiyyah", 
       "Komunikasi dan Penyiaran Islam", "Pendidikan Guru Madrasah Ibtidaiyah", "Bimbingan dan Konseling Pendidikan Islam", "Manajemen Haji dan Umrah", "lmu Al-Qur'an dan Tafsir"] },

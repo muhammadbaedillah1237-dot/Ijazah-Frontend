@@ -2,20 +2,29 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
-// PAGES EXISTING
+// ============================================================
+// IMPORT PAGES (Sudah disesuaikan dengan struktur folder baru)
+// ============================================================
 import Login from "./pages/login";
 import Template from "./pages/Template";
 import DataMahasiswa from "./pages/DataMahasiswa";
 import DetailBatch from "./pages/DetailBatch";
-import DetailMahasiswa from "./pages/DetailMahasiswa";
+import DetailMahasiswa from "./pages/DetailMahasiswa"; // Berada di luar karena re-usable
 import DaftarUnit from "./pages/DaftarUnit";
 import DaftarPengguna from "./pages/DaftarPengguna";
 import Profile from "./pages/Profile";
-import IjazahTerbit from "./pages/IjazahTerbit";
-import IjazahProses from "./pages/IjazahProses";
-import IjazahReject from "./pages/IjazahReject";
-import IjazahRevoke from "./pages/IjazahRevoke";
-import BatchTerbit from "./pages/BatchTerbit";
+
+// FOLDER: ijazah
+import IjazahTerbit from "./pages/ijazah/IjazahTerbit";
+import IjazahProses from "./pages/ijazah/IjazahProses";
+import IjazahReject from "./pages/ijazah/IjazahReject";
+import IjazahRevoke from "./pages/ijazah/IjazahRevoke";
+
+// FOLDER: batch
+import BatchTerbit from "./pages/batch/BatchTerbit";
+import BatchProses from "./pages/batch/BatchProses";
+import BatchReject from "./pages/batch/BatchReject";
+import BatchRevoke from "./pages/batch/BatchRevoke";
 
 // DASHBOARD PAGES
 import AdminDashboard from "./pages/Dashboard";
@@ -106,16 +115,26 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* FITUR UMUM */}
-          <Route path="/template" element={<ProtectedRoute allowedRoles={ALL_ROLES}><Template /></ProtectedRoute>} />
-          <Route path="/data-mahasiswa" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DataMahasiswa /></ProtectedRoute>} />
+          {/* FITUR IJAZAH (DAFTAR BATCH) */}
           <Route path="/ijazah-terbit" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahTerbit /></ProtectedRoute>} />
           <Route path="/ijazah-proses" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahProses /></ProtectedRoute>} />
           <Route path="/ijazah-reject" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahReject /></ProtectedRoute>} />
           <Route path="/ijazah-revoke" element={<ProtectedRoute allowedRoles={ALL_ROLES}><IjazahRevoke /></ProtectedRoute>} />
+          
+          {/* FITUR BATCH (DAFTAR MAHASISWA DALAM BATCH) */}
           <Route path="/batch-terbit/:id" element={<ProtectedRoute allowedRoles={ALL_ROLES}><BatchTerbit /></ProtectedRoute>} />
+          <Route path="/batch-proses/:id" element={<ProtectedRoute allowedRoles={ALL_ROLES}><BatchProses /></ProtectedRoute>} />
+          <Route path="/batch-reject/:id" element={<ProtectedRoute allowedRoles={ALL_ROLES}><BatchReject /></ProtectedRoute>} />
+          <Route path="/batch-revoke/:id" element={<ProtectedRoute allowedRoles={ALL_ROLES}><BatchRevoke /></ProtectedRoute>} />
+
+          {/* FITUR UMUM */}
+          <Route path="/template" element={<ProtectedRoute allowedRoles={ALL_ROLES}><Template /></ProtectedRoute>} />
+          <Route path="/data-mahasiswa" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DataMahasiswa /></ProtectedRoute>} />
           <Route path="/detail-batch/:id" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DetailBatch /></ProtectedRoute>} />
-          <Route path="/detail-mahasiswa" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DetailMahasiswa /></ProtectedRoute>} />
+          
+          {/* Route Detail Mahasiswa sudah ditambahkan parameter :nim */}
+          <Route path="/detail-mahasiswa/:nim" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DetailMahasiswa /></ProtectedRoute>} />
+          
           <Route path="/daftar-unit" element={<ProtectedRoute allowedRoles={ALL_ROLES}><DaftarUnit /></ProtectedRoute>} />
           <Route path="/daftar-pengguna" element={<ProtectedRoute allowedRoles={["admin"]}><DaftarPengguna /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute allowedRoles={ALL_ROLES}><Profile /></ProtectedRoute>} />
