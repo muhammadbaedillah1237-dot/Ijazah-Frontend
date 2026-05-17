@@ -91,15 +91,15 @@ const Template = () => {
 
     Foto: {
       x: 52,
-      y: 411,
+      y: 414,
       width: 95,
       height: 125,
     },
 
     "QR Code": {
-      x: 714,
-      y: 45,
-      width: 70,
+      x: 717,
+      y: 47,
+      width: 72,
       height: 72,
     },
 
@@ -281,7 +281,8 @@ const Template = () => {
 
   return (
     <DashboardLayout>
-      {/* HEADER */}
+       <div className="bg-white min-h-screen -mt-6 -mb-6 -mx-4 md:-mx-8 px-4 md:px-8 pt-6 pb-6">
+       {/* HEADER */}
       <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">
@@ -319,8 +320,8 @@ const Template = () => {
       </div>
 
       {/* CONTENT */}
-      <div className="border-t pt-4">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">
+      <div className="border-t border-gray-300 pt-4">
+        <h2 className="text-lg font-bold text-white-800 mb-4">
           DATA FIELD
         </h2>
 
@@ -408,7 +409,7 @@ const Template = () => {
               ) : (
                 <button
                   onClick={handleEdit}
-                  className="bg-yellow-500 hover:bg-yellow-600 transition text-white font-bold px-8 py-3 rounded-xl shadow"
+                  className="bg-white hover:bg-white-600 transition text-[#0B6B63] font-bold px-8 py-3 rounded-xl shadow"
                 >
                   Edit
                 </button>
@@ -416,6 +417,7 @@ const Template = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </DashboardLayout>
   );
