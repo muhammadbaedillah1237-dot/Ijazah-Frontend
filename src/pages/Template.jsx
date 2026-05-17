@@ -40,26 +40,49 @@ const Template = () => {
       height: 21,
     },
 
-    Fakultas: {
+    Fakultas: [
+      {
       x: 440,
-      y: 276,
+      y: 275,
       width: 200,
-      height: 21,
+      height: 13,
     },
+    {
+      x: 440,
+      y: 290,
+      width: 200,
+      height: 10,
+    }
+  ],
 
-    "Program Studi": {
+    "Program Studi": [
+      {
       x: 440,
-      y: 306,
+      y: 303,
       width: 200,
-      height: 21,
+      height: 13,
     },
+    {
+      x: 440,
+      y: 318,
+      width: 200,
+      height: 10,}
+  ],
 
-    Program: {
+    Program: [
+      {
       x: 440,
-      y: 336,
+      y: 331,
       width: 200,
-      height: 21,
+      height: 13,
     },
+    {
+      x: 440,
+      y: 346,
+      width: 200,
+      height: 10,
+    },
+  ],
 
     "Tanggal Kelulusan": {
       x: 57,
@@ -203,23 +226,34 @@ const Template = () => {
   };
 
   const addField = (label) => {
-    if (isSaved) return;
+  if (isSaved) return;
 
-    const alreadyExist = elements.find((el) => el.label === label);
-    if (alreadyExist) return;
+  const alreadyExist = elements.find((el) => el.label === label);
+  if (alreadyExist) return;
 
-    const position = fieldPositions[label];
-    if (!position) return;
+  const position = fieldPositions[label];
+  if (!position) return;
 
-    setElements([
-      ...elements,
-      {
-        id: Date.now(),
-        label,
-        ...position,
-      },
-    ]);
-  };
+  if (Array.isArray(position)) {
+    const newElements = position.map((pos, index) => ({
+      id: `${Date.now()}-${index}`,
+      label,
+      ...pos,
+    }));
+
+    setElements([...elements, ...newElements]);
+    return;
+  }
+
+  setElements([
+    ...elements,
+    {
+      id: Date.now(),
+      label,
+      ...position,
+    },
+  ]);
+};
 
   const handleSave = () => {
     setIsSaved(true);
